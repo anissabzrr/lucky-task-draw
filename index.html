@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Lucky Task Draw</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --brown-dark: #684c3b;
+      --brown: #8b6a55;
+      --brown-light: #b89b85;
+
+      --beige: #eee3d9;
+      --cream: #fffaf3;
+      --paper: #fbf5ed;
+
+      --pink: #e8bfc0;
+      --pink-light: #f4dddd;
+      --pink-pale: #faeeee;
+
+      --line: #d8c7b9;
+      --text-soft: #9b7e6c;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 30px;
+
+      color: var(--brown-dark);
+
+      font-family: Georgia, "Times New Roman", serif;
+
+      background-color: #e9ddcf;
+
+      background-image:
+        linear-gradient(
+          rgba(255,255,255,0.22) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,0.22) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          rgba(119,84,61,0.08) 2px,
+          transparent 2px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(119,84,61,0.08) 2px,
+          transparent 2px
+        ),
+        linear-gradient(
+          rgba(230,174,180,0.09) 8px,
+          transparent 8px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(230,174,180,0.09) 8px,
+          transparent 8px
+        );
+
+      background-size:
+        22px 22px,
+        22px 22px,
+        88px 88px,
+        88px 88px,
+        176px 176px,
+        176px 176px;
+    }
+
+
+    /* =========================
+       MAIN WINDOW
+       ========================= */
+
+    .lucky-window {
+      width: min(440px, 100%);
+
+      overflow: hidden;
+
+      border: 1px solid #b99e89;
+      border-radius: 8px;
+
+      background: var(--paper);
+
+      box-shadow:
+        0 8px 25px rgba(91, 65, 48, 0.18),
+        4px 4px 0 rgba(139, 106, 85, 0.08);
+    }
+
+
+    /* =========================
+       TITLE BAR
+       ========================= */
+
+    .title-bar {
+      min-height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 8px 10px 8px 14px;
+
+      color: var(--brown-dark);
+
+      background:
+        linear-gradient(
+          to bottom,
+          #efd4d3,
+          #e5bfbd
+        );
+
+      border-bottom: 1px solid #b99682;
+    }
+
+    .title-text {
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+      font-weight: bold;
+
+      letter-spacing: 1px;
+    }
+
+    .window-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .window-button {
+      width: 21px;
+      height: 21px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 1px solid #9d7a65;
+      border-radius: 3px;
+
+      background: #f9ebe7;
+
+      color: var(--brown-dark);
+
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+
+      box-shadow:
+        inset 1px 1px 0 rgba(255,255,255,0.8);
+    }
+
+
+    /* =========================
+       BODY
+       ========================= */
+
+    .window-body {
+      padding: 29px 28px 26px;
+
+      text-align: center;
+
+      background:
+        linear-gradient(
+          rgba(255,250,244,0.91),
+          rgba(255,250,244,0.91)
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent 0,
+          transparent 25px,
+          rgba(148,113,88,0.04) 25px,
+          rgba(148,113,88,0.04) 26px
+        );
+    }
+
+
+    .mini-decoration {
+      margin-bottom: 7px;
+
+      color: #c89294;
+
+      font-size: 17px;
+
+      letter-spacing: 4px;
+    }
+
+
+    h1 {
+      margin: 0;
+
+      color: var(--brown-dark);
+
+      font-size: 25px;
+      font-weight: normal;
+
+      letter-spacing: 3px;
+    }
+
+
+    .subtitle {
+      margin: 7px 0 23px;
+
+      color: #b77e7f;
+
+      font-size: 13px;
+      font-style: italic;
+
+      letter-spacing: 1px;
+    }
+
+
+    /* =========================
+       STATUS CARD
+       ========================= */
+
+    .status-card {
+      position: relative;
+
+      margin-bottom: 24px;
+      padding: 15px 17px;
+
+      text-align: left;
+
+      background: #f4eadf;
+
+      border: 1px solid #cfb69e;
+      border-radius: 5px;
+
+      box-shadow:
+        inset 0 0 0 3px rgba(255,255,255,0.32);
+    }
+
+
+    .status-label {
+      margin-bottom: 7px;
+
+      color: #8b6651;
+
+      font-family: "Courier New", monospace;
+      font-size: 10px;
+      font-weight: bold;
+
+      letter-spacing: 2px;
+    }
+
+
+    #statusText {
+      color: #8e7462;
+
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+
+      line-height: 1.5;
+    }
+
+
+    /* =========================
+       DRAW AREA
+       ========================= */
+
+    .draw-area {
+      margin: 2px 0 25px;
+    }
+
+
+    .feeling-lucky {
+      margin-bottom: 12px;
+
+      color: var(--brown-dark);
+
+      font-size: 17px;
+      font-style: italic;
+    }
+
+
+    #drawButton {
+      min-width: 160px;
+
+      padding: 12px 24px;
+
+      cursor: pointer;
+
+      border: 1px solid #9d705e;
+      border-radius: 4px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          #efd1d0,
+          #dfa9aa
+        );
+
+      color: #654737;
+
+      font-family: "Courier New", monospace;
+      font-size: 15px;
+      font-weight: bold;
+
+      letter-spacing: 2px;
+
+      box-shadow:
+        inset 0 0 0 3px #f7e3e1,
+        3px 3px 0 #cdb7a6;
+
+      transition:
+        transform 0.08s ease,
+        background 0.15s ease;
+    }
+
+
+    #drawButton:hover {
+      background:
+        linear-gradient(
+          to bottom,
+          #f2d8d7,
+          #e4b3b3
+        );
+
+      transform: translateY(-1px);
+    }
+
+
+    #drawButton:active {
+      transform: translate(2px, 2px);
+
+      box-shadow:
+        inset 0 0 0 3px #f7e3e1,
+        1px 1px 0 #cdb7a6;
+    }
+
+
+    #drawButton:disabled {
+      cursor: default;
+
+      opacity: 0.65;
+      transform: none;
+    }
+
+
+    .no-rerolls {
+      margin-top: 10px;
+
+      color: #b28778;
+
+      font-family: "Courier New", monospace;
+      font-size: 9px;
+
+      letter-spacing: 1px;
+    }
+
+
+    /* =========================
+       DIVIDER
+       ========================= */
+
+    .divider {
+      position: relative;
+
+      height: 20px;
+
+      margin: 3px 0 14px;
+    }
+
+
+    .divider::before {
+      content: "";
+
+      position: absolute;
+      top: 50%;
+      left: 0;
+
+      width: 100%;
+      height: 1px;
+
+      background:
+        repeating-linear-gradient(
+          to right,
+          #c8a994 0,
+          #c8a994 3px,
+          transparent 3px,
+          transparent 6px
+        );
+    }
+
+
+    .divider-symbol {
+      position: relative;
+      z-index: 1;
+
+      display: inline-block;
+
+      padding: 0 10px;
+
+      background: var(--paper);
+
+      color: #d0999b;
+
+      font-size: 16px;
+    }
+
+
+    /* =========================
+       TASK CARD
+       ========================= */
+
+    .task-card {
+      padding: 10px;
+
+      background: #eee0d2;
+
+      border: 1px solid #b99d85;
+      border-radius: 6px;
+
+      box-shadow:
+        inset 0 0 0 3px rgba(255,255,255,0.35);
+    }
+
+
+    .task-card-title {
+      padding: 3px 0 10px;
+
+      color: #765744;
+
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+      font-weight: bold;
+
+      letter-spacing: 2px;
+    }
+
+
+    .task-screen {
+      min-height: 130px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 19px 20px;
+
+      background: #fff9f3;
+
+      border: 1px dashed #d1aaa6;
+      border-radius: 4px;
+    }
+
+
+    .screen-label {
+      margin-bottom: 10px;
+
+      color: #bd8586;
+
+      font-family: "Courier New", monospace;
+      font-size: 9px;
+      font-weight: bold;
+
+      letter-spacing: 2px;
+    }
+
+
+    #taskText {
+      color: #674c3c;
+
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+
+      line-height: 1.45;
+
+      overflow-wrap: anywhere;
+    }
+
+
+    #dateText {
+      margin-top: 13px;
+
+      color: #a48672;
+
+      font-family: "Courier New", monospace;
+      font-size: 9px;
+    }
+
+
+    /* =========================
+       LITTLE NOTE
+       ========================= */
+
+    .note {
+      margin-top: 19px;
+      padding: 11px 15px;
+
+      color: #765744;
+
+      font-family: "Courier New", monospace;
+      font-size: 11px;
+
+      line-height: 1.55;
+
+      background-color: #f5dddd;
+
+      background-image:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0,
+          transparent 19px,
+          rgba(168,113,112,0.16) 19px,
+          rgba(168,113,112,0.16) 20px
+        );
+
+      border: 1px solid #e5c5c3;
+      border-radius: 3px;
+
+      transform: rotate(-0.4deg);
+
+      box-shadow:
+        2px 2px 0 rgba(112,82,62,0.06);
+    }
+
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    .footer {
+      margin-top: 18px;
+
+      color: #a38069;
+
+      font-size: 10px;
+      font-style: italic;
+
+      letter-spacing: 0.5px;
+    }
+
+
+    .footer-heart {
+      color: #ca9191;
+    }
+
+
+    /* =========================
+       STATES
+       ========================= */
+
+    .hidden {
+      display: none !important;
+    }
+
+
+    .winner {
+      animation: winnerPop 0.4s ease;
+    }
+
+
+    @keyframes winnerPop {
+      0% {
+        transform: scale(0.96);
+        opacity: 0.3;
+      }
+
+      70% {
+        transform: scale(1.015);
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+
+    @media (max-width: 500px) {
+      body {
+        padding: 15px;
+      }
+
+      .window-body {
+        padding: 24px 19px 22px;
+      }
+
+      h1 {
+        font-size: 21px;
+        letter-spacing: 2px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <div class="lucky-window">
+
+    <div class="title-bar">
+
+      <div class="title-text">
+        ✿ lucky task draw
+      </div>
+
+      <div class="window-buttons">
+        <div class="window-button">_</div>
+        <div class="window-button">×</div>
+      </div>
+
+    </div>
+
+
+    <div class="window-body">
+
+      <div class="mini-decoration">
+        ♡ ✦ ♡
+      </div>
+
+      <h1>LUCKY TASK DRAW</h1>
+
+      <div class="subtitle">
+        one click. no take-backs.
+      </div>
+
+
+      <div class="status-card">
+
+        <div class="status-label">
+          ✦ STATUS
+        </div>
+
+        <div id="statusText">
+          checking today's draw...
+        </div>
+
+      </div>
+
+
+      <div class="draw-area">
+
+        <div
+          class="feeling-lucky"
+          id="feelingLucky"
+        >
+          feeling lucky?
+        </div>
+
+
+        <button
+          id="drawButton"
+          class="hidden"
+          type="button"
+        >
+          ✦ DRAW! ✦
+        </button>
+
+
+        <div
+          class="no-rerolls"
+          id="noRerolls"
+        >
+          no rerolls, no exceptions
+        </div>
+
+      </div>
+
+
+      <div class="divider">
+        <span class="divider-symbol">
+          ♡
+        </span>
+      </div>
+
+
+      <div class="task-card">
+
+        <div class="task-card-title">
+          ★ TODAY'S TASK ★
+        </div>
+
+
+        <div
+          class="task-screen"
+          id="taskScreen"
+        >
+
+          <div
+            class="screen-label"
+            id="screenLabel"
+          >
+            DAILY TASK
+          </div>
+
+
+          <div id="taskText">
+            checking...
+          </div>
+
+
+          <div id="dateText"></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="note">
+        let the universe pick.<br>
+        you just do the work.
+      </div>
+
+
+      <div class="footer">
+        <span class="footer-heart">♥</span>
+        today is yours to make productive
+        <span class="footer-heart">♥</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    const WORKER_URL =
+      "https://lucky-task-draw.acmelobezerra.workers.dev";
+
+
+    const drawButton =
+      document.getElementById("drawButton");
+
+    const taskText =
+      document.getElementById("taskText");
+
+    const dateText =
+      document.getElementById("dateText");
+
+    const statusText =
+      document.getElementById("statusText");
+
+    const screenLabel =
+      document.getElementById("screenLabel");
+
+    const taskScreen =
+      document.getElementById("taskScreen");
+
+    const feelingLucky =
+      document.getElementById("feelingLucky");
+
+    const noRerolls =
+      document.getElementById("noRerolls");
+
+
+    /* =========================
+       CHECK TODAY
+       ========================= */
+
+    async function checkToday() {
+
+      try {
+
+        const response =
+          await fetch(WORKER_URL);
+
+        const data =
+          await response.json();
+
+
+        if (data.status === "ready") {
+
+          showReadyState(data);
+
+        }
+
+        else if (
+          data.status === "already_drawn"
+        ) {
+
+          showWinner(data);
+
+        }
+
+        else {
+
+          showError(
+            data.message ||
+            "Something unexpected happened."
+          );
+
+        }
+
+      }
+
+      catch (error) {
+
+        showError(
+          "Couldn't connect to Lucky Task Draw."
+        );
+
+        console.error(error);
+
+      }
+
+    }
+
+
+    /* =========================
+       DRAW
+       ========================= */
+
+    async function drawTask() {
+
+      drawButton.disabled = true;
+
+      drawButton.textContent =
+        "✦ DRAWING... ✦";
+
+      taskText.textContent =
+        "consulting the universe...";
+
+      screenLabel.textContent =
+        "PLEASE WAIT";
+
+      statusText.textContent =
+        "fate is choosing...";
+
+
+      try {
+
+        const response =
+          await fetch(
+            WORKER_URL + "/draw",
+            {
+              method: "POST"
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (
+          data.status === "drawn" ||
+          data.status === "already_drawn"
+        ) {
+
+          showWinner(data);
+
+        }
+
+        else if (
+          data.status === "empty"
+        ) {
+
+          taskText.textContent =
+            "no eligible tasks";
+
+          screenLabel.textContent =
+            "NOTHING TO DRAW";
+
+          statusText.textContent =
+            data.message;
+
+          drawButton.disabled = false;
+
+          drawButton.textContent =
+            "✦ DRAW! ✦";
+
+        }
+
+        else {
+
+          showError(
+            data.message ||
+            "The draw failed."
+          );
+
+        }
+
+      }
+
+      catch (error) {
+
+        showError(
+          "Couldn't complete the draw."
+        );
+
+        console.error(error);
+
+      }
+
+    }
+
+
+    /* =========================
+       READY STATE
+       ========================= */
+
+    function showReadyState(data) {
+
+      screenLabel.textContent =
+        "WAITING FOR TODAY'S DRAW";
+
+      taskText.innerHTML =
+        "no task drawn yet";
+
+      dateText.textContent =
+        formatDate(data.date);
+
+      statusText.textContent =
+        "ready when you are.";
+
+      feelingLucky.classList.remove(
+        "hidden"
+      );
+
+      noRerolls.classList.remove(
+        "hidden"
+      );
+
+      drawButton.classList.remove(
+        "hidden"
+      );
+
+      drawButton.disabled = false;
+
+      drawButton.textContent =
+        "✦ DRAW! ✦";
+
+    }
+
+
+    /* =========================
+       WINNER STATE
+       ========================= */
+
+    function showWinner(data) {
+
+      screenLabel.textContent =
+        "THE DRAW HAS SPOKEN";
+
+      taskText.textContent =
+        data.task;
+
+      dateText.textContent =
+        "drawn on " +
+        formatDate(data.date);
+
+      statusText.textContent =
+        "today's task has been chosen.";
+
+      drawButton.classList.add(
+        "hidden"
+      );
+
+      feelingLucky.classList.add(
+        "hidden"
+      );
+
+      noRerolls.classList.add(
+        "hidden"
+      );
+
+
+      taskScreen.classList.remove(
+        "winner"
+      );
+
+      void taskScreen.offsetWidth;
+
+      taskScreen.classList.add(
+        "winner"
+      );
+
+    }
+
+
+    /* =========================
+       ERROR
+       ========================= */
+
+    function showError(message) {
+
+      screenLabel.textContent =
+        "ERROR";
+
+      taskText.textContent =
+        "oops!";
+
+      dateText.textContent = "";
+
+      statusText.textContent =
+        message;
+
+      drawButton.classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    /* =========================
+       DATE
+       ========================= */
+
+    function formatDate(dateString) {
+
+      if (!dateString) {
+        return "";
+      }
+
+      const [
+        year,
+        month,
+        day
+      ] = dateString.split("-");
+
+
+      const date =
+        new Date(
+          Number(year),
+          Number(month) - 1,
+          Number(day)
+        );
+
+
+      return date.toLocaleDateString(
+        "en-US",
+        {
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        }
+      );
+
+    }
+
+
+    /* =========================
+       EVENTS
+       ========================= */
+
+    drawButton.addEventListener(
+      "click",
+      drawTask
+    );
+
+
+    checkToday();
+
+  </script>
+
+</body>
+</html>
