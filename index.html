@@ -566,266 +566,300 @@
       }
     }
 
-    /* =====================================
-   BROWNER NEAPOLITAN / ACADEMIA THEME
+/* =====================================
+   DARK CHOCOLATE NEAPOLITAN / ACADEMIA
    ===================================== */
 
 :root {
-  --brown-dark: #5b4030;
-  --brown: #7a5a45;
-  --brown-medium: #96755f;
-  --brown-light: #b99a82;
+  --brown-dark: #493126;
+  --brown: #654737;
+  --brown-medium: #80604b;
+  --brown-light: #ad8b70;
 
-  --beige: #dfcdbb;
+  --beige: #d8c1aa;
   --cream: #fff8ef;
-  --paper: #f3e6d7;
+  --paper: #ead8c6;
 
-  --pink: #e7bfc1;
-  --pink-light: #f1d8d8;
-  --pink-pale: #f9ecec;
+  --pink: #e4b8ba;
+  --pink-light: #f0d1d2;
+  --pink-pale: #fae9e9;
 
-  --line: #bfa48f;
-  --text-soft: #8d715f;
+  --line: #a9876d;
+  --text-soft: #806451;
 }
 
 
-/* MAIN WINDOW */
+/* =========================
+   MAIN WINDOW
+   ========================= */
 
 .lucky-window {
-  border: 1px solid #6b4b38;
+  border: 1px solid #3f2b22;
 
-  background: #c4a487;
+  background: #72513d;
 
   box-shadow:
-    0 8px 28px rgba(74, 48, 32, 0.28),
-    4px 4px 0 rgba(92, 62, 43, 0.15);
+    0 10px 30px rgba(54, 34, 23, 0.35),
+    5px 5px 0 rgba(71, 45, 30, 0.14);
 }
 
 
-/* TITLE BAR */
+/* =========================
+   TITLE BAR
+   ========================= */
 
 .title-bar {
-  color: #fff7ef;
+  color: #fff6eb;
 
   background:
     linear-gradient(
       to bottom,
-      #7d5a43,
-      #664631
+      #654534,
+      #4c3227
     );
 
-  border-bottom: 1px solid #4f3527;
+  border-bottom: 1px solid #38251d;
 }
 
 .title-text {
-  color: #fff7ef;
+  color: #fff6eb;
 }
 
 .window-button {
-  border: 1px solid #5b3e2d;
+  border: 1px solid #38261e;
 
   background:
     linear-gradient(
       to bottom,
-      #f5e7da,
-      #dfc7b4
+      #ead7c5,
+      #cbaa8e
     );
 
-  color: #604231;
+  color: #493126;
+
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.55);
 }
 
 
-/* MAIN INNER AREA */
+/* =========================
+   MAIN INNER AREA
+   ========================= */
 
 .window-body {
   background:
     linear-gradient(
-      rgba(218, 194, 172, 0.94),
-      rgba(218, 194, 172, 0.94)
+      rgba(188, 157, 130, 0.97),
+      rgba(188, 157, 130, 0.97)
     ),
     repeating-linear-gradient(
       0deg,
       transparent 0,
       transparent 25px,
-      rgba(98, 68, 47, 0.05) 25px,
-      rgba(98, 68, 47, 0.05) 26px
+      rgba(67, 43, 29, 0.07) 25px,
+      rgba(67, 43, 29, 0.07) 26px
     );
 }
 
 
-/* TOP DECORATION */
+/* =========================
+   HEADING
+   ========================= */
 
 .mini-decoration {
-  color: #c98286;
+  color: #b96f74;
 }
 
 h1 {
-  color: #5a3d2c;
+  color: #432c22;
 }
 
 .subtitle {
-  color: #a9686c;
+  color: #925d60;
 }
 
 
-/* STATUS CARD */
+/* =========================
+   STATUS CARD
+   ========================= */
 
 .status-card {
   background:
     linear-gradient(
       to bottom,
-      #9c7b62,
-      #87664f
+      #72513d,
+      #604330
     );
 
-  border: 1px solid #6e4f3b;
+  border: 1px solid #493124;
 
   box-shadow:
-    inset 0 0 0 3px rgba(255,255,255,0.10),
-    0 2px 5px rgba(76,48,30,0.12);
+    inset 0 0 0 3px rgba(255,255,255,0.07),
+    0 3px 7px rgba(57,36,23,0.18);
 }
 
 .status-label {
-  color: #fff4e9;
+  color: #f8e8d9;
 }
 
 #statusText {
-  color: #f9eee4;
+  color: #ead8c9;
 }
 
 
-/* DRAW AREA */
+/* =========================
+   DRAW AREA
+   ========================= */
 
 .feeling-lucky {
-  color: #5e4232;
+  color: #493126;
 }
 
 #drawButton {
-  border: 1px solid #7b5045;
+  border: 1px solid #714b48;
 
   background:
     linear-gradient(
       to bottom,
-      #e8c3c4,
-      #cf999c
+      #e5b8ba,
+      #c9878b
     );
 
-  color: #5b3d32;
+  color: #50342f;
 
   box-shadow:
-    inset 0 0 0 3px #f4dada,
-    3px 3px 0 #aa8b74;
+    inset 0 0 0 3px #f0d0d1,
+    3px 3px 0 #80604b;
 }
 
 #drawButton:hover {
   background:
     linear-gradient(
       to bottom,
-      #efd0d0,
-      #d8a4a6
+      #edc5c6,
+      #d29497
     );
+
+  transform: translateY(-1px);
+}
+
+#drawButton:active {
+  box-shadow:
+    inset 0 0 0 3px #f0d0d1,
+    1px 1px 0 #80604b;
 }
 
 .no-rerolls {
-  color: #8d6859;
+  color: #715343;
 }
 
 
-/* DIVIDER */
+/* =========================
+   DIVIDER
+   ========================= */
 
 .divider::before {
   background:
     repeating-linear-gradient(
       to right,
-      #8f6c54 0,
-      #8f6c54 3px,
+      #765540 0,
+      #765540 3px,
       transparent 3px,
       transparent 6px
     );
 }
 
 .divider-symbol {
-  background: #dac2ac;
-  color: #bf7b7f;
+  background: #bc9d82;
+  color: #a95f65;
 }
 
 
-/* TASK CARD */
+/* =========================
+   TASK CARD
+   ========================= */
 
 .task-card {
   background:
     linear-gradient(
       to bottom,
-      #8c674c,
-      #76543e
+      #624432,
+      #4f3528
     );
 
-  border: 1px solid #5e412f;
+  border: 1px solid #3d291f;
 
   box-shadow:
-    inset 0 0 0 3px rgba(255,255,255,0.08);
+    inset 0 0 0 3px rgba(255,255,255,0.06),
+    0 3px 8px rgba(54,34,23,0.18);
 }
 
 .task-card-title {
-  color: #fff5e9;
+  color: #f8eadb;
 }
 
 
-/* INNER TASK PAPER */
+/* =========================
+   TASK PAPER
+   ========================= */
 
 .task-screen {
   background: #fff8ef;
 
-  border: 1px dashed #c99494;
+  border: 1px dashed #c68f91;
 
   box-shadow:
-    inset 0 0 12px rgba(112, 74, 48, 0.05);
+    inset 0 0 14px rgba(91, 58, 38, 0.06);
 }
 
 .screen-label {
-  color: #ba777b;
+  color: #ae696e;
 }
 
 #taskText {
-  color: #5c3f2e;
+  color: #503529;
 }
 
 #dateText {
-  color: #91705d;
+  color: #8b6a56;
 }
 
 
-/* LITTLE PINK NOTE */
+/* =========================
+   PINK NOTE
+   ========================= */
 
 .note {
-  color: #69493a;
+  color: #5b3d32;
 
-  background-color: #efd2d3;
+  background-color: #e8c3c4;
 
   background-image:
     repeating-linear-gradient(
       to bottom,
       transparent 0,
       transparent 19px,
-      rgba(157, 92, 94, 0.15) 19px,
-      rgba(157, 92, 94, 0.15) 20px
+      rgba(143, 78, 82, 0.17) 19px,
+      rgba(143, 78, 82, 0.17) 20px
     );
 
-  border: 1px solid #d7aaaa;
+  border: 1px solid #c99597;
 
   box-shadow:
-    2px 2px 0 rgba(91, 62, 43, 0.12);
+    2px 2px 0 rgba(67,43,29,0.14);
 }
 
 
-/* FOOTER */
+/* =========================
+   FOOTER
+   ========================= */
 
 .footer {
-  color: #735442;
+  color: #604334;
 }
 
 .footer-heart {
-  color: #c27d80;
+  color: #aa6468;
 }
   </style>
 </head>
