@@ -481,7 +481,14 @@
       line-height: 1.45;
 
       overflow-wrap: anywhere;
+      text-decoration: none;
+      display: inline-block;
     }
+
+    #taskText:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 
 
     #dateText {
@@ -700,9 +707,14 @@
           </div>
 
 
-          <div id="taskText">
-            checking...
-          </div>
+          <a
+  id="taskText"
+  href="#"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  checking...
+</a>
 
 
           <div id="dateText"></div>
@@ -914,6 +926,9 @@
       taskText.innerHTML =
         "no task drawn yet";
 
+      taskText.removeAttribute("href");
+      taskText.style.cursor = "default";
+
       dateText.textContent =
         formatDate(data.date);
 
@@ -951,6 +966,9 @@
 
       taskText.textContent =
         data.task;
+
+      taskText.href = data.taskUrl;
+      taskText.style.cursor = "pointer";
 
       dateText.textContent =
         "drawn on " +
@@ -996,6 +1014,9 @@
 
       taskText.textContent =
         "oops!";
+
+      taskText.removeAttribute("href");
+      taskText.style.cursor = "default";
 
       dateText.textContent = "";
 
