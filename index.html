@@ -747,6 +747,100 @@ h1,
 }
 
 
+
+/* =====================================
+   CATEGORY DRAW CONTROLS
+   ===================================== */
+
+.category-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  margin: 0 0 16px;
+}
+
+.category-button {
+  min-width: 0;
+  padding: 8px 6px;
+  border: 1px solid #6b4a38;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #d6b79c, #bc9577);
+  color: #4b3126;
+  font-family: "Special Elite", "Courier New", monospace;
+  font-size: 10px;
+  line-height: 1.25;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.14);
+  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.category-button:hover {
+  background: linear-gradient(to bottom, #e0c5ae, #c9a184);
+  transform: translateY(-1px);
+}
+
+.category-button.active {
+  background: linear-gradient(to bottom, #e5b8ba, #c9878b);
+  color: #50342f;
+  border-color: #714b48;
+  box-shadow: inset 0 0 0 2px #f0d0d1;
+}
+
+.category-button.drawn::after {
+  content: " ✓";
+  color: #fff5e9;
+}
+
+.category-button.empty::after {
+  content: " —";
+  opacity: 0.75;
+}
+
+.category-label {
+  margin-bottom: 7px;
+  color: #4f3427;
+  font-family: "Special Elite", "Courier New", monospace;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 500px) {
+  .category-picker {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =====================================
+   COMPACT WINDOW
+   ===================================== */
+
+.lucky-window {
+  width: min(390px, 100%);
+}
+
+.window-body {
+  padding: 20px 22px 18px;
+}
+
+.mini-decoration { margin-bottom: 4px; }
+.subtitle { margin: 5px 0 16px; }
+.status-card { margin-bottom: 16px; padding: 11px 14px; }
+.status-label { margin-bottom: 4px; }
+.draw-area { margin: 0 0 16px; }
+.feeling-lucky { margin-bottom: 8px; }
+.no-rerolls { margin-top: 7px; }
+.divider { height: 16px; margin: 1px 0 9px; }
+.task-card { padding: 8px; }
+.task-card-title { padding: 2px 0 7px; }
+.task-screen { min-height: 105px; padding: 13px 15px; }
+.screen-label { margin-bottom: 6px; }
+#dateText { margin-top: 8px; }
+.note { margin-top: 13px; padding: 8px 12px; }
+.footer { margin-top: 12px; }
+
+
 /* =====================================
    DRAGGABLE WINDOW + WINDOW CONTROLS
    ===================================== */
@@ -873,81 +967,6 @@ h1,
   }
 }
 
-    /* =========================
-   COMPACT WINDOW
-   ========================= */
-
-.lucky-window {
-  width: min(390px, 100%);
-}
-
-.window-body {
-  padding: 20px 22px 18px;
-}
-
-.mini-decoration {
-  margin-bottom: 4px;
-}
-
-.subtitle {
-  margin: 5px 0 16px;
-}
-
-.status-card {
-  margin-bottom: 16px;
-  padding: 11px 14px;
-}
-
-.status-label {
-  margin-bottom: 4px;
-}
-
-.draw-area {
-  margin: 0 0 16px;
-}
-
-.feeling-lucky {
-  margin-bottom: 8px;
-}
-
-.no-rerolls {
-  margin-top: 7px;
-}
-
-.divider {
-  height: 16px;
-  margin: 1px 0 9px;
-}
-
-.task-card {
-  padding: 8px;
-}
-
-.task-card-title {
-  padding: 2px 0 7px;
-}
-
-.task-screen {
-  min-height: 105px;
-  padding: 13px 15px;
-}
-
-.screen-label {
-  margin-bottom: 6px;
-}
-
-#dateText {
-  margin-top: 8px;
-}
-
-.note {
-  margin-top: 13px;
-  padding: 8px 12px;
-}
-
-.footer {
-  margin-top: 12px;
-}
   </style>
 </head>
 
@@ -980,6 +999,20 @@ h1,
 
       <div class="subtitle">
         one click. no take-backs.
+      </div>
+
+
+      <div class="category-label">
+        ✦ choose your draw
+      </div>
+
+      <div class="category-picker" id="categoryPicker">
+        <button class="category-button active" type="button" data-category="writing">✏️ Writing</button>
+        <button class="category-button" type="button" data-category="learning">📕 Learning</button>
+        <button class="category-button" type="button" data-category="organising">📋 Organising</button>
+        <button class="category-button" type="button" data-category="designing">🎨 Designing</button>
+        <button class="category-button" type="button" data-category="adulting">🪴 Adulting</button>
+        <button class="category-button" type="button" data-category="miscellaneous">📦 Misc.</button>
       </div>
 
 
@@ -1100,329 +1133,290 @@ h1,
     const WORKER_URL =
       "https://lucky-task-draw.acmelobezerra.workers.dev";
 
+    const CATEGORIES = {
+      writing: "Writing",
+      learning: "Learning",
+      organising: "Organising",
+      designing: "Designing",
+      adulting: "Adulting",
+      miscellaneous: "Miscellaneous"
+    };
 
-    const drawButton =
-      document.getElementById("drawButton");
+    let selectedCategory = "writing";
+    const categoryStates = {};
 
-    const taskText =
-      document.getElementById("taskText");
+    const drawButton = document.getElementById("drawButton");
+    const taskText = document.getElementById("taskText");
+    const dateText = document.getElementById("dateText");
+    const statusText = document.getElementById("statusText");
+    const screenLabel = document.getElementById("screenLabel");
+    const taskScreen = document.getElementById("taskScreen");
+    const feelingLucky = document.getElementById("feelingLucky");
+    const noRerolls = document.getElementById("noRerolls");
+    const categoryPicker = document.getElementById("categoryPicker");
+    const categoryButtons = [...document.querySelectorAll(".category-button")];
 
-    const dateText =
-      document.getElementById("dateText");
+    const luckyWindow = document.querySelector(".lucky-window");
+    const dragHandle = document.getElementById("dragHandle");
+    const minimizeButton = document.getElementById("minimizeButton");
+    const closeButton = document.getElementById("closeButton");
+    const reopenButton = document.getElementById("reopenButton");
 
-    const statusText =
-      document.getElementById("statusText");
-
-    const screenLabel =
-      document.getElementById("screenLabel");
-
-    const taskScreen =
-      document.getElementById("taskScreen");
-
-    const feelingLucky =
-      document.getElementById("feelingLucky");
-
-    const noRerolls =
-      document.getElementById("noRerolls");
-
-    const luckyWindow =
-      document.querySelector(".lucky-window");
-
-    const dragHandle =
-      document.getElementById("dragHandle");
-
-    const minimizeButton =
-      document.getElementById("minimizeButton");
-
-    const closeButton =
-      document.getElementById("closeButton");
-
-    const reopenButton =
-      document.getElementById("reopenButton");
-
-
-    /* =========================
-       CHECK TODAY
-       ========================= */
-
-    async function checkToday() {
-
-      try {
-
-        const response =
-          await fetch(WORKER_URL);
-
-        const data =
-          await response.json();
-
-
-        if (data.status === "ready") {
-
-          showReadyState(data);
-
-        }
-
-        else if (
-          data.status === "already_drawn"
-        ) {
-
-          showWinner(data);
-
-        }
-
-        else {
-
-          showError(
-            data.message ||
-            "Something unexpected happened."
-          );
-
-        }
-
-      }
-
-      catch (error) {
-
-        showError(
-          "Couldn't connect to Lucky Task Draw."
-        );
-
-        console.error(error);
-
-      }
-
+    function getCategoryLabel(category) {
+      return CATEGORIES[category] || category;
     }
 
+    function setSelectedCategory(category) {
+      selectedCategory = category;
 
-    /* =========================
-       DRAW
-       ========================= */
+      categoryButtons.forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.category === category
+        );
+      });
+    }
+
+    function updateCategoryButton(category, status) {
+      const button = categoryButtons.find(
+        item => item.dataset.category === category
+      );
+
+      if (!button) return;
+
+      button.classList.remove("drawn", "empty");
+
+      if (status === "drawn" || status === "already_drawn") {
+        button.classList.add("drawn");
+      } else if (status === "empty") {
+        button.classList.add("empty");
+      }
+    }
+
+    async function checkCategory(category, showOnScreen = true) {
+      if (showOnScreen) {
+        showLoadingState(category);
+      }
+
+      try {
+        const response = await fetch(
+          `${WORKER_URL}/?category=${encodeURIComponent(category)}`
+        );
+
+        const data = await response.json();
+        categoryStates[category] = data;
+        updateCategoryButton(category, data.status);
+
+        if (showOnScreen && selectedCategory === category) {
+          if (data.status === "ready") {
+            showReadyState(data);
+          } else if (data.status === "already_drawn") {
+            showWinner(data);
+          } else if (data.status === "empty") {
+            showEmptyState(data);
+          } else {
+            showError(data.message || "Something unexpected happened.");
+          }
+        }
+
+        return data;
+
+      } catch (error) {
+        if (showOnScreen && selectedCategory === category) {
+          showError("Couldn't connect to Lucky Task Draw.");
+        }
+        console.error(error);
+        return null;
+      }
+    }
+
+    async function checkAllCategories() {
+      await Promise.all(
+        Object.keys(CATEGORIES).map(
+          category => checkCategory(
+            category,
+            category === selectedCategory
+          )
+        )
+      );
+    }
 
     async function drawTask() {
+      const categoryAtClick = selectedCategory;
 
       drawButton.disabled = true;
+      drawButton.textContent = "✦ DRAWING... ✦";
 
-      drawButton.textContent =
-        "✦ DRAWING... ✦";
-
-      taskText.textContent =
-        "consulting the universe...";
-
-      screenLabel.textContent =
-        "PLEASE WAIT";
-
-      statusText.textContent =
-        "fate is choosing...";
-
-
-      try {
-
-        const response =
-          await fetch(
-            WORKER_URL + "/draw",
-            {
-              method: "POST"
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (
-          data.status === "drawn" ||
-          data.status === "already_drawn"
-        ) {
-
-          showWinner(data);
-
-        }
-
-        else if (
-          data.status === "empty"
-        ) {
-
-          taskText.textContent =
-            "no eligible tasks";
-
-          screenLabel.textContent =
-            "NOTHING TO DRAW";
-
-          statusText.textContent =
-            data.message;
-
-          drawButton.disabled = false;
-
-          drawButton.textContent =
-            "✦ DRAW! ✦";
-
-        }
-
-        else {
-
-          showError(
-            data.message ||
-            "The draw failed."
-          );
-
-        }
-
-      }
-
-      catch (error) {
-
-        showError(
-          "Couldn't complete the draw."
-        );
-
-        console.error(error);
-
-      }
-
-    }
-
-
-    /* =========================
-       READY STATE
-       ========================= */
-
-    function showReadyState(data) {
-
-      screenLabel.textContent =
-        "WAITING FOR TODAY'S DRAW";
-
-      taskText.innerHTML =
-        "no task drawn yet";
-
+      taskText.textContent = "consulting the universe...";
       taskText.removeAttribute("href");
       taskText.style.cursor = "default";
 
-      dateText.textContent =
-        formatDate(data.date);
-
+      screenLabel.textContent = "PLEASE WAIT";
       statusText.textContent =
-        "ready when you are.";
+        `${getCategoryLabel(categoryAtClick)} fate is choosing...`;
 
-      feelingLucky.classList.remove(
-        "hidden"
-      );
+      try {
+        const response = await fetch(
+          WORKER_URL + "/draw",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              category: categoryAtClick
+            })
+          }
+        );
 
-      noRerolls.classList.remove(
-        "hidden"
-      );
+        const data = await response.json();
 
-      drawButton.classList.remove(
-        "hidden"
-      );
+        categoryStates[categoryAtClick] = data;
+        updateCategoryButton(categoryAtClick, data.status);
 
-      drawButton.disabled = false;
+        if (selectedCategory !== categoryAtClick) {
+          return;
+        }
 
-      drawButton.textContent =
-        "✦ DRAW! ✦";
+        if (data.status === "drawn" || data.status === "already_drawn") {
+          showWinner(data);
+        } else if (data.status === "empty") {
+          showEmptyState(data);
+        } else {
+          showError(data.message || "The draw failed.");
+        }
 
+      } catch (error) {
+        if (selectedCategory === categoryAtClick) {
+          showError("Couldn't complete the draw.");
+        }
+        console.error(error);
+      }
     }
 
+    function showLoadingState(category) {
+      const label = getCategoryLabel(category);
 
-    /* =========================
-       WINNER STATE
-       ========================= */
-
-    function showWinner(data) {
-
-      screenLabel.textContent =
-        "THE DRAW HAS SPOKEN";
-
-      taskText.textContent =
-        data.task;
-
-      taskText.href = data.taskUrl;
-      taskText.style.cursor = "pointer";
-
-      dateText.textContent =
-        "drawn on " +
-        formatDate(data.date);
-
-      statusText.textContent =
-        "today's task has been chosen.";
-
-      drawButton.classList.add(
-        "hidden"
-      );
-
-      feelingLucky.classList.add(
-        "hidden"
-      );
-
-      noRerolls.classList.add(
-        "hidden"
-      );
-
-
-      taskScreen.classList.remove(
-        "winner"
-      );
-
-      void taskScreen.offsetWidth;
-
-      taskScreen.classList.add(
-        "winner"
-      );
-
-    }
-
-
-    /* =========================
-       ERROR
-       ========================= */
-
-    function showError(message) {
-
-      screenLabel.textContent =
-        "ERROR";
-
-      taskText.textContent =
-        "oops!";
-
+      screenLabel.textContent = `CHECKING ${label.toUpperCase()}...`;
+      taskText.textContent = "checking...";
       taskText.removeAttribute("href");
       taskText.style.cursor = "default";
 
       dateText.textContent = "";
-
       statusText.textContent =
-        message;
+        `checking today's ${label.toLowerCase()} draw...`;
 
-      drawButton.classList.add(
-        "hidden"
-      );
-
+      feelingLucky.classList.add("hidden");
+      noRerolls.classList.add("hidden");
+      drawButton.classList.add("hidden");
     }
 
+    function showReadyState(data) {
+      const label =
+        data.categoryLabel ||
+        getCategoryLabel(data.category || selectedCategory);
 
-    /* =========================
-       DATE
-       ========================= */
+      screenLabel.textContent =
+        `WAITING FOR ${label.toUpperCase()} DRAW`;
 
-    function formatDate(dateString) {
+      taskText.textContent = "no task drawn yet";
+      taskText.removeAttribute("href");
+      taskText.style.cursor = "default";
 
-      if (!dateString) {
-        return "";
+      dateText.textContent = formatDate(data.date);
+      statusText.textContent = `${label}: ready when you are.`;
+
+      feelingLucky.textContent =
+        `feeling lucky, ${label.toLowerCase()} edition?`;
+
+      feelingLucky.classList.remove("hidden");
+      noRerolls.classList.remove("hidden");
+      drawButton.classList.remove("hidden");
+
+      drawButton.disabled = false;
+      drawButton.textContent = "✦ DRAW! ✦";
+    }
+
+    function showWinner(data) {
+      const label =
+        data.categoryLabel ||
+        getCategoryLabel(data.category || selectedCategory);
+
+      screenLabel.textContent =
+        `${label.toUpperCase()} DRAW HAS SPOKEN`;
+
+      taskText.textContent = data.task;
+
+      if (data.taskUrl) {
+        taskText.href = data.taskUrl;
+        taskText.style.cursor = "pointer";
+      } else {
+        taskText.removeAttribute("href");
+        taskText.style.cursor = "default";
       }
 
-      const [
-        year,
-        month,
-        day
-      ] = dateString.split("-");
+      dateText.textContent =
+        "drawn on " + formatDate(data.date);
 
+      statusText.textContent =
+        `today's ${label.toLowerCase()} task has been chosen.`;
 
-      const date =
-        new Date(
-          Number(year),
-          Number(month) - 1,
-          Number(day)
-        );
+      drawButton.classList.add("hidden");
+      feelingLucky.classList.add("hidden");
+      noRerolls.classList.add("hidden");
 
+      taskScreen.classList.remove("winner");
+      void taskScreen.offsetWidth;
+      taskScreen.classList.add("winner");
+    }
+
+    function showEmptyState(data) {
+      const label =
+        data.categoryLabel ||
+        getCategoryLabel(data.category || selectedCategory);
+
+      screenLabel.textContent =
+        `NO ${label.toUpperCase()} TASKS`;
+
+      taskText.textContent =
+        "nothing eligible to draw";
+
+      taskText.removeAttribute("href");
+      taskText.style.cursor = "default";
+
+      dateText.textContent = formatDate(data.date);
+      statusText.textContent =
+        data.message ||
+        `No eligible ${label.toLowerCase()} tasks found.`;
+
+      drawButton.classList.add("hidden");
+      feelingLucky.classList.add("hidden");
+      noRerolls.classList.add("hidden");
+    }
+
+    function showError(message) {
+      screenLabel.textContent = "ERROR";
+      taskText.textContent = "oops!";
+      taskText.removeAttribute("href");
+      taskText.style.cursor = "default";
+      dateText.textContent = "";
+      statusText.textContent = message;
+
+      drawButton.classList.add("hidden");
+      feelingLucky.classList.add("hidden");
+      noRerolls.classList.add("hidden");
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return "";
+
+      const [year, month, day] = dateString.split("-");
+
+      const date = new Date(
+        Number(year),
+        Number(month) - 1,
+        Number(day)
+      );
 
       return date.toLocaleDateString(
         "en-US",
@@ -1432,14 +1426,9 @@ h1,
           year: "numeric"
         }
       );
-
     }
 
-
-
-    /* =========================
-       WINDOW CONTROLS
-       ========================= */
+    /* WINDOW CONTROLS */
 
     let isDragging = false;
     let dragOffsetX = 0;
@@ -1447,240 +1436,145 @@ h1,
 
     function prepareWindowForDragging() {
       const rect = luckyWindow.getBoundingClientRect();
-
       luckyWindow.style.left = rect.left + "px";
       luckyWindow.style.top = rect.top + "px";
       luckyWindow.style.transform = "none";
     }
 
-
     function startDrag(event) {
-
-      if (event.target.closest(".window-button")) {
-        return;
-      }
+      if (event.target.closest(".window-button")) return;
 
       prepareWindowForDragging();
 
       const rect = luckyWindow.getBoundingClientRect();
 
       isDragging = true;
+      dragOffsetX = event.clientX - rect.left;
+      dragOffsetY = event.clientY - rect.top;
 
-      dragOffsetX =
-        event.clientX - rect.left;
-
-      dragOffsetY =
-        event.clientY - rect.top;
-
-      dragHandle.setPointerCapture(
-        event.pointerId
-      );
-
+      dragHandle.setPointerCapture(event.pointerId);
       event.preventDefault();
     }
 
-
     function dragWindow(event) {
+      if (!isDragging) return;
 
-      if (!isDragging) {
-        return;
-      }
+      const maxLeft = Math.max(
+        0,
+        window.innerWidth - luckyWindow.offsetWidth
+      );
 
-      const maxLeft =
-        Math.max(
-          0,
-          window.innerWidth -
-          luckyWindow.offsetWidth
-        );
+      const maxTop = Math.max(
+        0,
+        window.innerHeight - luckyWindow.offsetHeight
+      );
 
-      const maxTop =
-        Math.max(
-          0,
-          window.innerHeight -
-          luckyWindow.offsetHeight
-        );
+      let newLeft = event.clientX - dragOffsetX;
+      let newTop = event.clientY - dragOffsetY;
 
-      let newLeft =
-        event.clientX - dragOffsetX;
+      newLeft = Math.min(Math.max(0, newLeft), maxLeft);
+      newTop = Math.min(Math.max(0, newTop), maxTop);
 
-      let newTop =
-        event.clientY - dragOffsetY;
-
-      newLeft =
-        Math.min(
-          Math.max(0, newLeft),
-          maxLeft
-        );
-
-      newTop =
-        Math.min(
-          Math.max(0, newTop),
-          maxTop
-        );
-
-      luckyWindow.style.left =
-        newLeft + "px";
-
-      luckyWindow.style.top =
-        newTop + "px";
+      luckyWindow.style.left = newLeft + "px";
+      luckyWindow.style.top = newTop + "px";
     }
 
-
     function stopDrag(event) {
-
-      if (!isDragging) {
-        return;
-      }
+      if (!isDragging) return;
 
       isDragging = false;
 
-      if (
-        dragHandle.hasPointerCapture(
-          event.pointerId
-        )
-      ) {
-        dragHandle.releasePointerCapture(
-          event.pointerId
-        );
+      if (dragHandle.hasPointerCapture(event.pointerId)) {
+        dragHandle.releasePointerCapture(event.pointerId);
       }
     }
 
-
     function toggleMinimize() {
-
       const minimized =
-        luckyWindow.classList.toggle(
-          "minimized"
-        );
+        luckyWindow.classList.toggle("minimized");
 
       minimizeButton.textContent =
         minimized ? "□" : "_";
     }
 
-
     function closeWindow() {
-
-      luckyWindow.classList.add(
-        "hidden"
-      );
-
-      reopenButton.classList.remove(
-        "hidden"
-      );
+      luckyWindow.classList.add("hidden");
+      reopenButton.classList.remove("hidden");
     }
-
 
     function reopenWindow() {
-
-      luckyWindow.classList.remove(
-        "hidden"
-      );
-
-      reopenButton.classList.add(
-        "hidden"
-      );
+      luckyWindow.classList.remove("hidden");
+      reopenButton.classList.add("hidden");
     }
-
 
     function keepWindowOnScreen() {
+      if (luckyWindow.classList.contains("hidden")) return;
 
-      if (
-        luckyWindow.classList.contains(
-          "hidden"
-        )
-      ) {
-        return;
-      }
+      const rect = luckyWindow.getBoundingClientRect();
 
-      const rect =
-        luckyWindow.getBoundingClientRect();
+      if (luckyWindow.style.transform !== "none") return;
 
-      if (
-        luckyWindow.style.transform !==
-        "none"
-      ) {
-        return;
-      }
+      const maxLeft = Math.max(
+        0,
+        window.innerWidth - luckyWindow.offsetWidth
+      );
 
-      const maxLeft =
-        Math.max(
-          0,
-          window.innerWidth -
-          luckyWindow.offsetWidth
-        );
-
-      const maxTop =
-        Math.max(
-          0,
-          window.innerHeight -
-          luckyWindow.offsetHeight
-        );
+      const maxTop = Math.max(
+        0,
+        window.innerHeight - luckyWindow.offsetHeight
+      );
 
       luckyWindow.style.left =
-        Math.min(
-          Math.max(0, rect.left),
-          maxLeft
-        ) + "px";
+        Math.min(Math.max(0, rect.left), maxLeft) + "px";
 
       luckyWindow.style.top =
-        Math.min(
-          Math.max(0, rect.top),
-          maxTop
-        ) + "px";
+        Math.min(Math.max(0, rect.top), maxTop) + "px";
     }
 
+    drawButton.addEventListener("click", drawTask);
 
-    /* =========================
-       EVENTS
-       ========================= */
-
-    drawButton.addEventListener(
+    categoryPicker.addEventListener(
       "click",
-      drawTask
+      event => {
+        const button =
+          event.target.closest(".category-button");
+
+        if (!button) return;
+
+        const category = button.dataset.category;
+        setSelectedCategory(category);
+
+        const cached = categoryStates[category];
+
+        if (!cached) {
+          checkCategory(category, true);
+          return;
+        }
+
+        if (cached.status === "drawn" || cached.status === "already_drawn") {
+          showWinner(cached);
+        } else if (cached.status === "ready") {
+          showReadyState(cached);
+        } else if (cached.status === "empty") {
+          showEmptyState(cached);
+        } else {
+          checkCategory(category, true);
+        }
+      }
     );
 
-    dragHandle.addEventListener(
-      "pointerdown",
-      startDrag
-    );
+    dragHandle.addEventListener("pointerdown", startDrag);
+    dragHandle.addEventListener("pointermove", dragWindow);
+    dragHandle.addEventListener("pointerup", stopDrag);
+    dragHandle.addEventListener("pointercancel", stopDrag);
 
-    dragHandle.addEventListener(
-      "pointermove",
-      dragWindow
-    );
+    minimizeButton.addEventListener("click", toggleMinimize);
+    closeButton.addEventListener("click", closeWindow);
+    reopenButton.addEventListener("click", reopenWindow);
 
-    dragHandle.addEventListener(
-      "pointerup",
-      stopDrag
-    );
+    window.addEventListener("resize", keepWindowOnScreen);
 
-    dragHandle.addEventListener(
-      "pointercancel",
-      stopDrag
-    );
-
-    minimizeButton.addEventListener(
-      "click",
-      toggleMinimize
-    );
-
-    closeButton.addEventListener(
-      "click",
-      closeWindow
-    );
-
-    reopenButton.addEventListener(
-      "click",
-      reopenWindow
-    );
-
-    window.addEventListener(
-      "resize",
-      keepWindowOnScreen
-    );
-
-
-    checkToday();
+    checkAllCategories();
 
   </script>
 
