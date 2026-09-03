@@ -1,1686 +1,1229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Lucky Task Draw</title>
-
-<link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxtMY-VM4oCIHGKwUVwNuPhPPHFgOyEm9JY8bbTZvwnTUqsxXohPUtsjaZt1WfmA7zWMkmo-i-P49oqeZBP4mMHDgpmfWJHgbM13sbLMSYGTl_s1lZTfkp0Ap_dBMu4rnWpiCiLEIgtp1BtbCKK3S_Ywr4iEsIEPDvMt9mrIaa1zq5ZJpNM8CbqCz7uwU/s1600/brown-heart-whatsapp.webp">
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
-  
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    :root {
-      --brown-dark: #684c3b;
-      --brown: #8b6a55;
-      --brown-light: #b89b85;
-
-      --beige: #eee3d9;
-      --cream: #fffaf3;
-      --paper: #fbf5ed;
-
-      --pink: #e8bfc0;
-      --pink-light: #f4dddd;
-      --pink-pale: #faeeee;
-
-      --line: #d8c7b9;
-      --text-soft: #9b7e6c;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
-      color: var(--brown-dark);
-      font-family: Georgia, "Times New Roman", serif;
-      background-color: #e9ddcf;
-      background-image: url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjicyTdWfkg8QqoKsFbmZqoY2UQrBYczeojHgKTHmKK7_-_Lsql7W6Fd13pbE61dbCo0XYH2pS6YbjiqI38AUxxwrz30DVrOaNLNPnMDuLj8-uz_O9OFnRTKMVe_HxRH0cvp64mofoo3B1SQGegsQpskvoC4UVTfgRKxCxzI46A9t73ZrwbgKKjFFO0ORE/s1600/22cde72e540d83ebb2c128752215247f.jpg");
-      background-repeat: repeat;
-      background-position: top left;
-      background-size: auto 640px;
-    }
-
-
-    /* =========================
-       MAIN WINDOW
-       ========================= */
-
-    .lucky-window {
-      width: min(440px, 100%);
-      overflow: hidden;
-      border: 1px solid #b99e89;
-      border-radius: 8px;
-      background: var(--paper);
-      box-shadow:
-        0 8px 25px rgba(91, 65, 48, 0.18),
-        4px 4px 0 rgba(139, 106, 85, 0.08);
-    }
-
-
-    /* =========================
-       TITLE BAR
-       ========================= */
-
-    .title-bar {
-      min-height: 42px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 10px 8px 14px;
-      color: var(--brown-dark);
-      background:
-        linear-gradient(
-          to bottom,
-          #efd4d3,
-          #e5bfbd
-        );
-      border-bottom: 1px solid #b99682;
-    }
-
-    .title-text {
-      font-family: "Courier New", monospace;
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-
-
-    /* =========================
-       BODY
-       ========================= */
-
-    .window-body {
-      padding: 29px 28px 26px;
-      text-align: center;
-      background:
-        linear-gradient(
-          rgba(255,250,244,0.91),
-          rgba(255,250,244,0.91)
-        ),
-        repeating-linear-gradient(
-          0deg,
-          transparent 0,
-          transparent 25px,
-          rgba(148,113,88,0.04) 25px,
-          rgba(148,113,88,0.04) 26px
-        );
-    }
-
-
-    .mini-decoration {
-      margin-bottom: 7px;
-      color: #c89294;
-      font-size: 17px;
-      letter-spacing: 4px;
-    }
-
-
-    h1 {
-      margin: 0;
-      color: var(--brown-dark);
-      font-size: 25px;
-      font-weight: normal;
-      letter-spacing: 3px;
-      font-weight: 700;
-    }
-
-
-    .subtitle {
-      margin: 7px 0 23px;
-      color: #b77e7f;
-      font-size: 13px;
-      font-style: italic;
-      letter-spacing: 1px;
-    }
-
-
-    /* =========================
-       STATUS CARD
-       ========================= */
-
-    .status-card {
-      position: relative;
-      margin-bottom: 24px;
-      padding: 15px 17px;
-      text-align: left;
-      background: #f4eadf;
-      border: 1px solid #cfb69e;
-      border-radius: 5px;
-      box-shadow:
-        inset 0 0 0 3px rgba(255,255,255,0.32);
-    }
-
-
-    .status-label {
-      margin-bottom: 7px;
-      color: #8b6651;
-      font-family: "Courier New", monospace;
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
-
-    #statusText {
-      color: #8e7462;
-      font-family: "Courier New", monospace;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-
-    /* =========================
-       DRAW AREA
-       ========================= */
-
-    .draw-area {
-      margin: 2px 0 25px;
-    }
-
-
-    .feeling-lucky {
-      margin-bottom: 12px;
-      color: var(--brown-dark);
-      font-size: 17px;
-      font-style: italic;
-    }
-
-
-    #drawButton {
-      min-width: 160px;
-      padding: 12px 24px;
-      cursor: pointer;
-      border: 1px solid #9d705e;
-      border-radius: 4px;
-
-      background:
-        linear-gradient(
-          to bottom,
-          #efd1d0,
-          #dfa9aa
-        );
-
-      color: #654737;
-
-      font-family: "Courier New", monospace;
-      font-size: 15px;
-      font-weight: bold;
-      letter-spacing: 2px;
-
-      box-shadow:
-        inset 0 0 0 3px #f7e3e1,
-        3px 3px 0 #cdb7a6;
-
-      transition:
-        transform 0.08s ease,
-        background 0.15s ease;
-    }
-
-
-    #drawButton:hover {
-      background:
-        linear-gradient(
-          to bottom,
-          #f2d8d7,
-          #e4b3b3
-        );
-
-      transform: translateY(-1px);
-    }
-
-
-    #drawButton:active {
-      transform: translate(2px, 2px);
-
-      box-shadow:
-        inset 0 0 0 3px #f7e3e1,
-        1px 1px 0 #cdb7a6;
-    }
-
-
-    #drawButton:disabled {
-      cursor: default;
-      opacity: 0.65;
-      transform: none;
-    }
-
-
-    .no-rerolls {
-      margin-top: 10px;
-      color: #b28778;
-      font-family: "Courier New", monospace;
-      font-size: 9px;
-      letter-spacing: 1px;
-    }
-
-
-    /* =========================
-       DIVIDER
-       ========================= */
-
-    .divider {
-      position: relative;
-      height: 20px;
-      margin: 3px 0 14px;
-    }
-
-
-    .divider::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 1px;
-
-      background:
-        repeating-linear-gradient(
-          to right,
-          #c8a994 0,
-          #c8a994 3px,
-          transparent 3px,
-          transparent 6px
-        );
-    }
-
-
-    .divider-symbol {
-      position: relative;
-      z-index: 1;
-      display: inline-block;
-      padding: 0 10px;
-      background: var(--paper);
-      color: #d0999b;
-      font-size: 16px;
-    }
-
-
-    /* =========================
-       TASK CARD
-       ========================= */
-
-    .task-card {
-      padding: 10px;
-      background: #eee0d2;
-      border: 1px solid #b99d85;
-      border-radius: 6px;
-      box-shadow:
-        inset 0 0 0 3px rgba(255,255,255,0.35);
-    }
-
-
-    .task-card-title {
-      padding: 3px 0 10px;
-      color: #765744;
-      font-family: "Courier New", monospace;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
-
-    .task-screen {
-      min-height: 130px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 19px 20px;
-      background: #fff9f3;
-      border: 1px dashed #d1aaa6;
-      border-radius: 4px;
-    }
-
-
-    .screen-label {
-      margin-bottom: 10px;
-      color: #bd8586;
-      font-family: "Courier New", monospace;
-      font-size: 9px;
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-
-
-    #taskText {
-      color: #674c3c;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 30px;
-      line-height: 1.45;
-      overflow-wrap: anywhere;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    #taskText:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Productivity Desktop</title>
+
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+:root{
+  --glass: rgba(245, 224, 235, .78);
+  --glass-strong: rgba(255, 240, 247, .92);
+  --border: rgba(91, 58, 76, .62);
+  --brown: #50392f;
+  --pink: #d896ad;
+  --pink-dark: #a65d7b;
+  --cream: #fff8f0;
+  --paper: #fffdf7;
+  --taskbar-h: 48px;
 }
 
-    #dateText {
-      margin-top: 13px;
-      color: #a48672;
-      font-family: "Courier New", monospace;
-      font-size: 9px;
-    }
-
-
-    /* =========================
-       LITTLE NOTE
-       ========================= */
-
-    .note {
-      margin-top: 19px;
-      padding: 11px 15px;
-      color: #765744;
-      font-family: "Courier New", monospace;
-      font-size: 11px;
-      line-height: 1.55;
-      background-color: #f5dddd;
-      background-image:
-        repeating-linear-gradient(
-          to bottom,
-          transparent 0,
-          transparent 19px,
-          rgba(168,113,112,0.16) 19px,
-          rgba(168,113,112,0.16) 20px
-        );
-      border: 1px solid #e5c5c3;
-      border-radius: 3px;
-      transform: rotate(-0.4deg);
-      box-shadow:
-        2px 2px 0 rgba(112,82,62,0.06);
-    }
-
-
-    /* =========================
-       FOOTER
-       ========================= */
-
-    .footer {
-      margin-top: 18px;
-      color: #a38069;
-      font-size: 10px;
-      font-style: italic;
-      letter-spacing: 0.5px;
-    }
-
-
-    .footer-heart {
-      color: #ca9191;
-    }
-
-
-    /* =========================
-       STATES
-       ========================= */
-
-    .hidden {
-      display: none !important;
-    }
-
-
-    .winner {
-      animation: winnerPop 0.4s ease;
-    }
-
-
-    @keyframes winnerPop {
-      0% {
-        transform: scale(0.96);
-        opacity: 0.3;
-      }
-
-      70% {
-        transform: scale(1.015);
-      }
-
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-
-    @media (max-width: 500px) {
-      body {
-        padding: 15px;
-      }
-
-      .window-body {
-        padding: 24px 19px 22px;
-      }
-
-      h1 {
-        font-size: 21px;
-        letter-spacing: 2px;
-      }
-    }
-
-/* =====================================
-   DARK CHOCOLATE NEAPOLITAN / ACADEMIA
-   ===================================== */
-
-:root {
-  --brown-dark: #493126;
-  --brown: #654737;
-  --brown-medium: #80604b;
-  --brown-light: #ad8b70;
-
-  --beige: #d8c1aa;
-  --cream: #fff8ef;
-  --paper: #ead8c6;
-
-  --pink: #e4b8ba;
-  --pink-light: #f0d1d2;
-  --pink-pale: #fae9e9;
-
-  --line: #a9876d;
-  --text-soft: #806451;
+html,body{
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
 }
 
+body{
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  color:var(--brown);
+  background:
+    linear-gradient(rgba(255,255,255,.10),rgba(255,255,255,.10)),
+    url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjicyTdWfkg8QqoKsFbmZqoY2UQrBYczeojHgKTHmKK7_-_Lsql7W6Fd13pbE61dbCo0XYH2pS6YbjiqI38AUxxwrz30DVrOaNLNPnMDuLj8-uz_O9OFnRTKMVe_HxRH0cvp64mofoo3B1SQGegsQpskvoC4UVTfgRKxCxzI46A9t73ZrwbgKKjFFO0ORE/s1600/22cde72e540d83ebb2c128752215247f.jpg");
+  background-repeat:repeat;
+  background-size:auto 640px;
+}
 
-/* =========================
-   MAIN WINDOW
-   ========================= */
+button,input,textarea{ font:inherit; }
 
-.lucky-window {
-  border: 1px solid #3f2b22;
-  background: #72513d;
+.desktop{
+  position:fixed;
+  inset:0 0 var(--taskbar-h) 0;
+  overflow:hidden;
+}
+
+/* DESKTOP ICONS */
+.desktop-icons{
+  position:absolute;
+  top:18px;
+  left:18px;
+  display:grid;
+  grid-template-columns:84px;
+  gap:14px;
+  z-index:2;
+}
+
+.desktop-icon{
+  width:84px;
+  padding:5px 4px;
+  border:1px solid transparent;
+  border-radius:6px;
+  background:transparent;
+  color:#4d382f;
+  cursor:default;
+  text-align:center;
+  text-shadow:0 1px 2px rgba(255,255,255,.95);
+}
+
+.desktop-icon:hover,
+.desktop-icon.selected{
+  border-color:rgba(255,255,255,.65);
+  background:rgba(255,255,255,.25);
+}
+
+.desktop-icon .icon{
+  display:flex;
+  width:48px;
+  height:48px;
+  margin:0 auto 4px;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  border:1px solid rgba(83,54,69,.3);
+  background:linear-gradient(#fff9fc,#e9c4d3);
   box-shadow:
-    0 10px 30px rgba(54, 34, 23, 0.35),
-    5px 5px 0 rgba(71, 45, 30, 0.14);
+    inset 0 1px 0 rgba(255,255,255,.95),
+    0 3px 8px rgba(69,48,55,.18);
+  font-size:25px;
 }
 
-
-/* =========================
-   TITLE BAR
-   ========================= */
-
-.title-bar {
-  color: #fff6eb;
-  background:
-    linear-gradient(
-      to bottom,
-      #654534,
-      #4c3227
-    );
-
-  border-bottom: 1px solid #38251d;
+.desktop-icon span:last-child{
+  display:block;
+  font-size:12px;
+  line-height:1.15;
 }
 
-.title-text {
-  color: #fff6eb;
-}
-
-
-/* =========================
-   MAIN INNER AREA
-   ========================= */
-
-.window-body {
-  background:
-    linear-gradient(
-      rgba(188, 157, 130, 0.97),
-      rgba(188, 157, 130, 0.97)
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent 0,
-      transparent 25px,
-      rgba(67, 43, 29, 0.07) 25px,
-      rgba(67, 43, 29, 0.07) 26px
-    );
-}
-
-
-/* =========================
-   HEADING
-   ========================= */
-
-.mini-decoration {
-  color: #b96f74;
-}
-
-h1 {
-  color: #432c22;
-}
-
-.subtitle {
-  color: #925d60;
-}
-
-
-/* =========================
-   STATUS CARD
-   ========================= */
-
-.status-card {
-  background:
-    linear-gradient(
-      to bottom,
-      #72513d,
-      #604330
-    );
-
-  border: 1px solid #493124;
-
+/* WINDOWS */
+.app-window{
+  position:absolute;
+  width:min(420px,calc(100vw - 24px));
+  border:1px solid rgba(63,42,54,.75);
+  border-radius:10px 10px 7px 7px;
+  overflow:hidden;
+  background:rgba(255,248,243,.97);
   box-shadow:
-    inset 0 0 0 3px rgba(255,255,255,0.07),
-    0 3px 7px rgba(57,36,23,0.18);
+    0 18px 45px rgba(60,41,49,.28),
+    inset 0 0 0 1px rgba(255,255,255,.65);
+  z-index:10;
 }
 
-.status-label {
-  color: #f8e8d9;
+.app-window.inactive{
+  filter:saturate(.88);
 }
 
-#statusText {
-  color: #ead8c9;
+.app-window.minimized{
+  display:none;
 }
 
-
-/* =========================
-   DRAW AREA
-   ========================= */
-
-.feeling-lucky {
-  color: #493126;
+.app-window.closed{
+  display:none;
 }
 
-#drawButton {
-  border: 1px solid #714b48;
+.window-titlebar{
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6px 0 10px;
+  user-select:none;
+  touch-action:none;
+  cursor:default;
+  border-bottom:1px solid rgba(83,53,68,.42);
   background:
-    linear-gradient(
-      to bottom,
-      #e5b8ba,
-      #c9878b
-    );
-  color: #50342f;
+    linear-gradient(to bottom,
+      rgba(255,255,255,.93) 0%,
+      rgba(244,211,225,.90) 42%,
+      rgba(217,156,182,.90) 100%);
   box-shadow:
-    inset 0 0 0 3px #f0d0d1,
-    3px 3px 0 #80604b;
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -1px 0 rgba(255,255,255,.25);
 }
 
-#drawButton:hover {
+.window-title{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+  color:#4b313e;
+  font-size:12px;
+  font-weight:600;
+  text-shadow:0 1px 0 rgba(255,255,255,.9);
+}
+
+.window-controls{
+  display:flex;
+  gap:3px;
+}
+
+.win-btn{
+  width:29px;
+  height:21px;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(77,47,61,.58);
+  border-radius:3px;
+  color:#553441;
+  background:linear-gradient(#fff7fb,#dfb2c6);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+  cursor:pointer;
+  line-height:1;
+}
+
+.win-btn:hover{ background:linear-gradient(#fff,#ecc5d5); }
+.win-btn.close:hover{ background:linear-gradient(#f3a5ae,#cb5965); color:#fff; }
+
+.window-body{
+  max-height:calc(100vh - var(--taskbar-h) - 60px);
+  overflow:auto;
+  padding:20px;
+}
+
+/* LUCKY DRAW */
+#luckyWindow{
+  left:calc(50% - 210px);
+  top:42px;
+}
+
+.lucky-inner{
+  text-align:center;
+  font-family:"Special Elite","Courier New",monospace;
+}
+
+.lucky-inner h1{
+  margin:0;
+  font-family:"EB Garamond",Georgia,serif;
+  font-weight:600;
+  letter-spacing:2px;
+  font-size:25px;
+}
+
+.lucky-sub{
+  margin:3px 0 15px;
+  font-family:"EB Garamond",Georgia,serif;
+  font-style:italic;
+  color:#a86678;
+}
+
+.status-card{
+  text-align:left;
+  padding:12px 13px;
+  margin-bottom:15px;
+  border:1px solid #67493b;
+  background:linear-gradient(#72513d,#5e4031);
+  color:#f6e7dc;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.07);
+}
+
+.status-label{
+  margin-bottom:5px;
+  font-size:9px;
+  letter-spacing:1.5px;
+}
+
+#statusText{
+  font-size:13px;
+  line-height:1.4;
+}
+
+.feeling-lucky{
+  font-family:"EB Garamond",Georgia,serif;
+  font-size:17px;
+  font-style:italic;
+  margin-bottom:8px;
+}
+
+#drawButton{
+  min-width:145px;
+  padding:9px 18px;
+  border:1px solid #714b48;
+  border-radius:4px;
+  background:linear-gradient(#e9c0c4,#c9868c);
+  color:#50342f;
+  font-weight:bold;
+  letter-spacing:1.5px;
+  box-shadow:inset 0 0 0 2px #f5d6d8,2px 2px 0 #80604b;
+  cursor:pointer;
+}
+
+#drawButton:active{
+  transform:translate(1px,1px);
+  box-shadow:inset 0 0 0 2px #f5d6d8,1px 1px 0 #80604b;
+}
+
+.no-rerolls{
+  margin-top:7px;
+  font-size:8px;
+  color:#816254;
+}
+
+.task-card{
+  margin-top:16px;
+  padding:9px;
+  background:linear-gradient(#624432,#4f3528);
+  border:1px solid #3d291f;
+}
+
+.task-card-title{
+  color:#f8eadb;
+  padding:2px 0 8px;
+  font-size:10px;
+  letter-spacing:1.5px;
+}
+
+.task-screen{
+  min-height:108px;
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background:#fff8ef;
+  border:1px dashed #c68f91;
+}
+
+.screen-label{
+  margin-bottom:8px;
+  color:#ae696e;
+  font-size:8px;
+  letter-spacing:1.5px;
+}
+
+#taskText{
+  color:#503529;
+  font-family:"EB Garamond",Georgia,serif;
+  font-size:24px;
+  line-height:1.25;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+}
+
+#taskText[href]:hover{ text-decoration:underline; }
+
+#dateText{
+  margin-top:8px;
+  font-size:8px;
+  color:#8b6a56;
+}
+
+.lucky-note{
+  margin-top:14px;
+  padding:9px;
+  font-size:9px;
+  line-height:1.45;
   background:
-    linear-gradient(
-      to bottom,
-      #edc5c6,
-      #d29497
-    );
-  transform: translateY(-1px);
+    repeating-linear-gradient(to bottom,#e8c3c4 0,#e8c3c4 18px,#d9aaad 19px);
+  border:1px solid #c99597;
 }
 
-#drawButton:active {
+.hidden{ display:none !important; }
+.winner{ animation:winnerPop .38s ease; }
+@keyframes winnerPop{
+  0%{transform:scale(.96);opacity:.35}
+  75%{transform:scale(1.015)}
+  100%{transform:scale(1);opacity:1}
+}
+
+/* NOTEPAD */
+#notepadWindow{
+  width:min(520px,calc(100vw - 24px));
+  left:17%;
+  top:90px;
+}
+
+.menu-bar{
+  display:flex;
+  gap:18px;
+  height:27px;
+  align-items:center;
+  padding:0 9px;
+  border-bottom:1px solid #d5c6bc;
+  background:#fbf5ef;
+  font-size:12px;
+}
+
+.notepad-area{
+  width:100%;
+  min-height:300px;
+  padding:12px;
+  resize:none;
+  border:0;
+  outline:0;
+  background:#fff;
+  color:#2c2826;
+  font-family:"Courier New",monospace;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.notepad-status{
+  padding:4px 9px;
+  border-top:1px solid #ddd2cb;
+  font-size:10px;
+  color:#86746a;
+  background:#fbf5ef;
+}
+
+/* QUOTES */
+#quotesWindow{
+  width:min(430px,calc(100vw - 24px));
+  left:55%;
+  top:100px;
+}
+
+.quote-panel{
+  padding:22px;
+  text-align:center;
+  border:1px solid #dbc0c8;
+  background:
+    linear-gradient(rgba(255,250,248,.94),rgba(255,250,248,.94)),
+    repeating-linear-gradient(0deg,transparent 0,transparent 23px,rgba(168,110,137,.08) 23px,rgba(168,110,137,.08) 24px);
+}
+
+.quote-mark{
+  font-family:Georgia,serif;
+  font-size:38px;
+  line-height:.7;
+  color:#c1849d;
+}
+
+#quoteText{
+  min-height:75px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:"EB Garamond",Georgia,serif;
+  font-size:23px;
+  line-height:1.35;
+  color:#553d35;
+}
+
+.quote-btn{
+  margin-top:14px;
+  padding:8px 16px;
+  border:1px solid #a66a7f;
+  border-radius:4px;
+  background:linear-gradient(#f2d7e0,#d89bb1);
+  color:#5a3543;
+  cursor:pointer;
+  box-shadow:inset 0 1px 0 #fff;
+}
+
+/* CHECKLIST */
+#checklistWindow{
+  width:min(400px,calc(100vw - 24px));
+  left:12%;
+  top:160px;
+}
+
+.checklist-paper{
+  padding:18px;
+  border:1px solid #d7beb4;
+  background:
+    repeating-linear-gradient(to bottom,#fffaf3 0,#fffaf3 28px,#ead9d0 29px);
+}
+
+.checklist-heading{
+  margin:0 0 15px;
+  font-family:"EB Garamond",Georgia,serif;
+  font-size:25px;
+  text-align:center;
+}
+
+.check-row{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  min-height:29px;
+  font-family:"Special Elite","Courier New",monospace;
+  font-size:12px;
+}
+
+.check-row input[type="checkbox"]{
+  accent-color:#b16f89;
+}
+
+.check-row input[type="text"]{
+  flex:1;
+  min-width:0;
+  border:0;
+  border-bottom:1px dashed rgba(120,83,72,.35);
+  outline:0;
+  background:transparent;
+  color:#4f3a32;
+  font-family:inherit;
+  font-size:12px;
+}
+
+.check-row.done input[type="text"]{
+  text-decoration:line-through;
+  opacity:.55;
+}
+
+.checklist-actions{
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:13px;
+}
+
+.small-btn{
+  padding:6px 10px;
+  border:1px solid #9f7781;
+  background:#f1d9df;
+  color:#563c43;
+  border-radius:3px;
+  cursor:pointer;
+  font-size:11px;
+}
+
+/* TASKBAR */
+.taskbar{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:var(--taskbar-h);
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:5px 8px;
+  border-top:1px solid rgba(255,255,255,.75);
+  background:
+    linear-gradient(to bottom,
+      rgba(242,219,231,.92),
+      rgba(194,137,164,.94));
   box-shadow:
-    inset 0 0 0 3px #f0d0d1,
-    1px 1px 0 #80604b;
+    inset 0 1px 0 rgba(255,255,255,.75),
+    0 -3px 13px rgba(68,45,55,.18);
+  backdrop-filter:blur(10px);
 }
 
-.no-rerolls {
-  color: #715343;
+.start-button{
+  flex:0 0 auto;
+  height:37px;
+  padding:0 14px 0 10px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid rgba(82,54,67,.7);
+  border-radius:20px;
+  background:linear-gradient(#fff9fc,#dca2ba);
+  color:#563642;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:inset 0 1px 0 #fff;
 }
 
-
-/* =========================
-   DIVIDER
-   ========================= */
-
-.divider::before {
-  background:
-    repeating-linear-gradient(
-      to right,
-      #765540 0,
-      #765540 3px,
-      transparent 3px,
-      transparent 6px
-    );
+.start-orb{
+  width:25px;
+  height:25px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#fff,#f0b9cf 35%,#b96588 75%);
+  color:white;
+  text-shadow:0 1px 2px #6e3851;
 }
 
-.divider-symbol {
-  background: #bc9d82;
-  color: #a95f65;
+.taskbar-apps{
+  flex:1;
+  min-width:0;
+  display:flex;
+  gap:5px;
+  overflow:hidden;
 }
 
-
-/* =========================
-   TASK CARD
-   ========================= */
-
-.task-card {
-  background:
-    linear-gradient(
-      to bottom,
-      #624432,
-      #4f3528
-    );
-  border: 1px solid #3d291f;
-  box-shadow:
-    inset 0 0 0 3px rgba(255,255,255,0.06),
-    0 3px 8px rgba(54,34,23,0.18);
+.task-button{
+  max-width:160px;
+  min-width:110px;
+  height:34px;
+  padding:0 10px;
+  border:1px solid rgba(91,57,73,.48);
+  border-radius:4px;
+  background:linear-gradient(rgba(255,255,255,.55),rgba(221,170,192,.62));
+  color:#503742;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  cursor:pointer;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
 }
 
-.task-card-title {
-  color: #f8eadb;
+.task-button.active{
+  background:linear-gradient(rgba(255,255,255,.86),rgba(239,196,214,.88));
+  box-shadow:inset 0 0 7px rgba(157,84,116,.17);
 }
 
-
-/* =========================
-   TASK PAPER
-   ========================= */
-
-.task-screen {
-  background: #fff8ef;
-  border: 1px dashed #c68f91;
-  box-shadow:
-    inset 0 0 14px rgba(91, 58, 38, 0.06);
+.tray{
+  flex:0 0 auto;
+  min-width:105px;
+  height:37px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:6px;
+  padding:0 8px;
+  border-left:1px solid rgba(255,255,255,.4);
+  font-size:11px;
+  color:#4e3540;
+  text-align:right;
 }
 
-.screen-label {
-  color: #ae696e;
+#clock{
+  line-height:1.25;
 }
 
-#taskText {
-  color: #503529;
+/* START MENU */
+.start-menu{
+  position:fixed;
+  left:8px;
+  bottom:48px;
+  width:260px;
+  z-index:10001;
+  border:1px solid rgba(72,46,60,.72);
+  border-radius:9px 9px 0 0;
+  overflow:hidden;
+  background:rgba(255,247,250,.97);
+  box-shadow:0 -10px 30px rgba(68,43,54,.25);
 }
 
-#dateText {
-  color: #8b6a56;
+.start-menu.hidden{ display:none; }
+
+.start-head{
+  padding:15px;
+  background:linear-gradient(#e8b8cb,#c77e9d);
+  color:#fff;
+  font-weight:600;
+  text-shadow:0 1px 2px #7a4560;
 }
 
-
-/* =========================
-   PINK NOTE
-   ========================= */
-
-.note {
-  color: #5b3d32;
-  background-color: #e8c3c4;
-  background-image:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 19px,
-      rgba(143, 78, 82, 0.17) 19px,
-      rgba(143, 78, 82, 0.17) 20px
-    );
-  border: 1px solid #c99597;
-  box-shadow:
-    2px 2px 0 rgba(67,43,29,0.14);
+.start-list{
+  padding:8px;
 }
 
-
-/* =========================
-   FOOTER
-   ========================= */
-
-.footer {
-  color: #604334;
+.start-item{
+  width:100%;
+  padding:9px 10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:0;
+  background:transparent;
+  text-align:left;
+  color:#4f3740;
+  cursor:pointer;
 }
 
-.footer-heart {
-  color: #aa6468;
+.start-item:hover{
+  background:#f0d6e1;
 }
 
-h1,
-.feeling-lucky,
-#taskText {
-  font-family: "EB Garamond", Garamond, serif;
+@media(max-width:700px){
+  .desktop-icons{ grid-template-columns:72px; left:8px; }
+  .desktop-icon{ width:72px; }
+  #luckyWindow{ left:8px; top:55px; }
+  #notepadWindow,#quotesWindow,#checklistWindow{ left:10px; top:70px; }
+  .task-button{ min-width:56px; max-width:90px; font-size:0; }
+  .task-button::first-letter{ font-size:13px; }
 }
-
-.title-text,
-.status-label,
-#statusText,
-#drawButton,
-.no-rerolls,
-.task-card-title,
-.screen-label,
-#dateText,
-.note {
-  font-family: "Special Elite", "Courier New", monospace;
-}
-
-
-
-/* =====================================
-   CATEGORY DRAW CONTROLS
-   ===================================== */
-
-.category-picker {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 7px;
-  margin: 0 0 16px;
-}
-
-.category-button {
-  min-width: 0;
-  padding: 8px 6px;
-  border: 1px solid #6b4a38;
-  border-radius: 4px;
-  background: linear-gradient(to bottom, #d6b79c, #bc9577);
-  color: #4b3126;
-  font-family: "Special Elite", "Courier New", monospace;
-  font-size: 10px;
-  line-height: 1.25;
-  cursor: pointer;
-  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.14);
-  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
-}
-
-.category-button:hover {
-  background: linear-gradient(to bottom, #e0c5ae, #c9a184);
-  transform: translateY(-1px);
-}
-
-.category-button.active {
-  background: linear-gradient(to bottom, #e5b8ba, #c9878b);
-  color: #50342f;
-  border-color: #714b48;
-  box-shadow: inset 0 0 0 2px #f0d0d1;
-}
-
-.category-button.drawn::after {
-  content: " ✓";
-  color: #fff5e9;
-}
-
-.category-button.empty::after {
-  content: " —";
-  opacity: 0.75;
-}
-
-.category-label {
-  margin-bottom: 7px;
-  color: #4f3427;
-  font-family: "Special Elite", "Courier New", monospace;
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-@media (max-width: 500px) {
-  .category-picker {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* =====================================
-   COMPACT WINDOW
-   ===================================== */
-
-.lucky-window {
-  width: min(390px, 100%);
-}
-
-.window-body {
-  padding: 20px 22px 18px;
-}
-
-.mini-decoration { margin-bottom: 4px; }
-.subtitle { margin: 5px 0 16px; }
-.status-card { margin-bottom: 16px; padding: 11px 14px; }
-.status-label { margin-bottom: 4px; }
-.draw-area { margin: 0 0 16px; }
-.feeling-lucky { margin-bottom: 8px; }
-.no-rerolls { margin-top: 7px; }
-.divider { height: 16px; margin: 1px 0 9px; }
-.task-card { padding: 8px; }
-.task-card-title { padding: 2px 0 7px; }
-.task-screen { min-height: 105px; padding: 13px 15px; }
-.screen-label { margin-bottom: 6px; }
-#dateText { margin-top: 8px; }
-.note { margin-top: 13px; padding: 8px 12px; }
-.footer { margin-top: 12px; }
-
-
-/* =====================================
-   DRAGGABLE WINDOW + WINDOW CONTROLS
-   ===================================== */
-
-.lucky-window {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-}
-
-.title-bar {
-  cursor: grab;
-  user-select: none;
-  touch-action: none;
-}
-
-.title-bar:active {
-  cursor: grabbing;
-}
-
-.window-buttons {
-  display: flex;
-  gap: 5px;
-  flex-shrink: 0;
-}
-
-.window-button {
-  width: 22px;
-  height: 22px;
-  padding: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid #38261e;
-  border-radius: 3px;
-
-  background:
-    linear-gradient(
-      to bottom,
-      #ead7c5,
-      #cbaa8e
-    );
-
-  color: #493126;
-
-  font-family: "Special Elite", "Courier New", monospace;
-  font-size: 13px;
-  line-height: 1;
-
-  cursor: pointer;
-
-  box-shadow:
-    inset 1px 1px 0 rgba(255,255,255,0.55);
-}
-
-.window-button:hover {
-  background:
-    linear-gradient(
-      to bottom,
-      #f1e2d4,
-      #d8bda6
-    );
-}
-
-.window-button:active {
-  transform: translate(1px, 1px);
-}
-
-.lucky-window.minimized .window-body {
-  display: none;
-}
-
-.lucky-window.minimized {
-  width: min(300px, calc(100vw - 30px));
-}
-
-.reopen-button {
-  position: fixed;
-  right: 18px;
-  bottom: 18px;
-  z-index: 20;
-
-  width: 42px;
-  height: 42px;
-
-  border: 1px solid #38261e;
-  border-radius: 50%;
-
-  background:
-    linear-gradient(
-      to bottom,
-      #e5b8ba,
-      #c9878b
-    );
-
-  color: #50342f;
-
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 20px;
-
-  cursor: pointer;
-
-  box-shadow:
-    inset 0 0 0 3px #f0d0d1,
-    3px 3px 0 #654737;
-}
-
-.reopen-button:hover {
-  background:
-    linear-gradient(
-      to bottom,
-      #edc5c6,
-      #d29497
-    );
-}
-
-@media (max-width: 500px) {
-  .lucky-window {
-    max-width: calc(100vw - 30px);
-  }
-}
-
-    /* =====================================
-   EXTRA COMPACT — CATEGORY VERSION
-   ===================================== */
-
-/* Less padding around everything */
-.window-body {
-  padding: 14px 22px 13px;
-}
-
-/* Header area */
-.mini-decoration {
-  margin-bottom: 1px;
-}
-
-h1 {
-  margin: 0;
-}
-
-.subtitle {
-  margin: 2px 0 10px;
-}
-
-/* Category selector */
-.category-label {
-  margin-bottom: 5px;
-}
-
-.category-picker {
-  gap: 5px 7px;
-  margin-bottom: 10px;
-}
-
-.category-button {
-  padding-top: 6px;
-  padding-bottom: 6px;
-}
-
-/* Status */
-.status-card {
-  margin-bottom: 10px;
-  padding: 8px 13px;
-}
-
-.status-label {
-  margin-bottom: 2px;
-}
-
-/* Draw area */
-.draw-area {
-  margin-bottom: 9px;
-}
-
-.feeling-lucky {
-  margin-bottom: 5px;
-}
-
-#drawButton {
-  padding-top: 9px;
-  padding-bottom: 9px;
-}
-
-.no-rerolls {
-  margin-top: 4px;
-}
-
-/* Heart divider */
-.divider {
-  height: 11px;
-  margin: 0 0 6px;
-}
-
-/* Task card */
-.task-card {
-  padding: 6px;
-}
-
-.task-card-title {
-  padding: 1px 0 5px;
-}
-
-.task-screen {
-  min-height: 88px;
-  padding: 9px 15px;
-}
-
-.screen-label {
-  margin-bottom: 3px;
-}
-
-#dateText {
-  margin-top: 5px;
-}
-
-/* Pink note */
-.note {
-  margin-top: 9px;
-  padding: 6px 12px;
-}
-
-/* Footer */
-.footer {
-  margin-top: 8px;
-}
-
-  </style>
+</style>
 </head>
 
-
 <body>
+<div class="desktop" id="desktop">
 
-  <div class="lucky-window">
-
-    <div class="title-bar" id="dragHandle">
-
-      <div class="title-text">
-        ✿ lucky task draw
-      </div>
-
-      <div class="window-buttons">
-        <button class="window-button" id="minimizeButton" type="button" aria-label="Minimize">_</button>
-        <button class="window-button" id="closeButton" type="button" aria-label="Close">×</button>
-      </div>
-
-    </div>
-
-
-    <div class="window-body">
-
-      <div class="mini-decoration">
-        ♡ ✦ ♡
-      </div>
-
-      <h1>LUCKY TASK DRAW</h1>
-
-      <div class="subtitle">
-        one click. no take-backs.
-      </div>
-
-
-      <div class="category-label">
-        ✦ choose your draw
-      </div>
-
-      <div class="category-picker" id="categoryPicker">
-        <button class="category-button active" type="button" data-category="writing">✏️ Writing</button>
-        <button class="category-button" type="button" data-category="learning">📕 Learning</button>
-        <button class="category-button" type="button" data-category="organising">📋 Organising</button>
-        <button class="category-button" type="button" data-category="designing">🎨 Designing</button>
-        <button class="category-button" type="button" data-category="adulting">🪴 Adulting</button>
-        <button class="category-button" type="button" data-category="miscellaneous">📦 Misc.</button>
-      </div>
-
-
-      <div class="status-card">
-
-        <div class="status-label">
-          ✦ STATUS
-        </div>
-
-        <div id="statusText">
-          checking today's draw...
-        </div>
-
-      </div>
-
-
-      <div class="draw-area">
-
-        <div
-          class="feeling-lucky"
-          id="feelingLucky"
-        >
-          feeling lucky?
-        </div>
-
-
-        <button
-          id="drawButton"
-          class="hidden"
-          type="button"
-        >
-          ✦ DRAW! ✦
-        </button>
-
-
-        <div
-          class="no-rerolls"
-          id="noRerolls"
-        >
-          no rerolls, no exceptions
-        </div>
-
-      </div>
-
-
-      <div class="divider">
-        <span class="divider-symbol">
-          ♡
-        </span>
-      </div>
-
-
-      <div class="task-card">
-
-        <div class="task-card-title">
-          ★ TODAY'S TASK ★
-        </div>
-
-
-        <div
-          class="task-screen"
-          id="taskScreen"
-        >
-
-          <div
-            class="screen-label"
-            id="screenLabel"
-          >
-            DAILY TASK
-          </div>
-
-
-          <a
-  id="taskText"
-  href="#"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  checking...
-</a>
-
-
-          <div id="dateText"></div>
-
-        </div>
-
-      </div>
-
-
-      <div class="note">
-        let the universe pick!<br>
-        you just do the work.
-      </div>
-
-
-      <div class="footer">
-        <span class="footer-heart">♥</span>
-        today is yours to make productive
-        <span class="footer-heart">♥</span>
-      </div>
-
-    </div>
-
+  <div class="desktop-icons">
+    <button class="desktop-icon" data-open="luckyWindow" type="button">
+      <span class="icon">🎲</span><span>Lucky Draw</span>
+    </button>
+    <button class="desktop-icon" data-open="notepadWindow" type="button">
+      <span class="icon">📝</span><span>Notepad</span>
+    </button>
+    <button class="desktop-icon" data-open="quotesWindow" type="button">
+      <span class="icon">💬</span><span>Quotes</span>
+    </button>
+    <button class="desktop-icon" data-open="checklistWindow" type="button">
+      <span class="icon">📋</span><span>Today's Checklist</span>
+    </button>
   </div>
 
-  <button
-    id="reopenButton"
-    class="reopen-button hidden"
-    type="button"
-    aria-label="Reopen Lucky Task Draw"
-  >
-    ✿
+  <!-- LUCKY DRAW -->
+  <section class="app-window" id="luckyWindow" data-title="🎲 Lucky Draw">
+    <div class="window-titlebar">
+      <div class="window-title">🎲 lucky task draw</div>
+      <div class="window-controls">
+        <button class="win-btn minimize" type="button" aria-label="Minimize">_</button>
+        <button class="win-btn close" type="button" aria-label="Close">×</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="lucky-inner">
+        <div style="color:#b66e86;letter-spacing:3px;margin-bottom:4px;">♡ ✦ ♡</div>
+        <h1>LUCKY TASK DRAW</h1>
+        <div class="lucky-sub">one click. no take-backs.</div>
+
+        <div class="status-card">
+          <div class="status-label">✦ STATUS</div>
+          <div id="statusText">checking today's draw...</div>
+        </div>
+
+        <div id="feelingLucky" class="feeling-lucky">feeling lucky?</div>
+        <button id="drawButton" class="hidden" type="button">✦ DRAW! ✦</button>
+        <div id="noRerolls" class="no-rerolls">no rerolls, no exceptions</div>
+
+        <div class="task-card">
+          <div class="task-card-title">★ TODAY'S TASK ★</div>
+          <div class="task-screen" id="taskScreen">
+            <div class="screen-label" id="screenLabel">DAILY TASK</div>
+            <a id="taskText" target="_blank" rel="noopener noreferrer">checking...</a>
+            <div id="dateText"></div>
+          </div>
+        </div>
+
+        <div class="lucky-note">let the universe pick!<br>you just do the work.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTEPAD -->
+  <section class="app-window closed" id="notepadWindow" data-title="📝 Notepad">
+    <div class="window-titlebar">
+      <div class="window-title">📝 Notepad</div>
+      <div class="window-controls">
+        <button class="win-btn minimize" type="button" aria-label="Minimize">_</button>
+        <button class="win-btn close" type="button" aria-label="Close">×</button>
+      </div>
+    </div>
+    <div class="menu-bar"><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span></div>
+    <textarea id="notepadArea" class="notepad-area" spellcheck="true" placeholder="type something..."></textarea>
+    <div class="notepad-status" id="noteStatus">saved locally</div>
+  </section>
+
+  <!-- QUOTES -->
+  <section class="app-window closed" id="quotesWindow" data-title="💬 Quotes">
+    <div class="window-titlebar">
+      <div class="window-title">💬 little motivation machine</div>
+      <div class="window-controls">
+        <button class="win-btn minimize" type="button" aria-label="Minimize">_</button>
+        <button class="win-btn close" type="button" aria-label="Close">×</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="quote-panel">
+        <div class="quote-mark">“</div>
+        <div id="quoteText">click below when you need a little push.</div>
+        <button id="quoteButton" class="quote-btn" type="button">✦ new quote ✦</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section class="app-window closed" id="checklistWindow" data-title="📋 Checklist">
+    <div class="window-titlebar">
+      <div class="window-title">📋 today's checklist</div>
+      <div class="window-controls">
+        <button class="win-btn minimize" type="button" aria-label="Minimize">_</button>
+        <button class="win-btn close" type="button" aria-label="Close">×</button>
+      </div>
+    </div>
+    <div class="window-body">
+      <div class="checklist-paper">
+        <h2 class="checklist-heading">today's checklist ♡</h2>
+        <div id="checklistRows"></div>
+        <div class="checklist-actions">
+          <button class="small-btn" id="addCheckItem" type="button">+ add item</button>
+          <button class="small-btn" id="clearDone" type="button">clear done</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="start-menu hidden" id="startMenu">
+  <div class="start-head">♡ productivity desktop</div>
+  <div class="start-list">
+    <button class="start-item" data-open="luckyWindow" type="button">🎲 Lucky Task Draw</button>
+    <button class="start-item" data-open="notepadWindow" type="button">📝 Notepad</button>
+    <button class="start-item" data-open="quotesWindow" type="button">💬 Quote Generator</button>
+    <button class="start-item" data-open="checklistWindow" type="button">📋 Today's Checklist</button>
+  </div>
+</div>
+
+<div class="taskbar">
+  <button class="start-button" id="startButton" type="button">
+    <span class="start-orb">✿</span>
+    <span>start</span>
   </button>
+  <div class="taskbar-apps" id="taskbarApps"></div>
+  <div class="tray">
+    <span>☁︎ ♡</span>
+    <span id="clock"></span>
+  </div>
+</div>
 
+<script>
+/* ==========================================================
+   CONFIG
+   ========================================================== */
+const LUCKY_WORKER_URL = "https://lucky-task-draw.acmelobezerra.workers.dev";
+const QUOTE_WORKER_URL = "https://motivationalquotes.acmelobezerra.workers.dev";
 
-  <script>
+/* ==========================================================
+   WINDOW MANAGER
+   ========================================================== */
+const desktop = document.getElementById("desktop");
+const windows = [...document.querySelectorAll(".app-window")];
+const taskbarApps = document.getElementById("taskbarApps");
+let topZ = 20;
 
-    const WORKER_URL =
-      "https://lucky-task-draw.acmelobezerra.workers.dev";
+function focusWindow(win){
+  topZ += 1;
+  windows.forEach(w => w.classList.add("inactive"));
+  win.classList.remove("inactive");
+  win.style.zIndex = topZ;
 
-    const CATEGORIES = {
-      writing: "Writing",
-      learning: "Learning",
-      organising: "Organising",
-      designing: "Designing",
-      adulting: "Adulting",
-      miscellaneous: "Miscellaneous"
-    };
+  document.querySelectorAll(".task-button").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.window === win.id);
+  });
+}
 
-    let selectedCategory = "writing";
-    const categoryStates = {};
+function ensureTaskButton(win){
+  let btn = taskbarApps.querySelector(`[data-window="${win.id}"]`);
+  if(btn) return btn;
 
-    const drawButton = document.getElementById("drawButton");
-    const taskText = document.getElementById("taskText");
-    const dateText = document.getElementById("dateText");
-    const statusText = document.getElementById("statusText");
-    const screenLabel = document.getElementById("screenLabel");
-    const taskScreen = document.getElementById("taskScreen");
-    const feelingLucky = document.getElementById("feelingLucky");
-    const noRerolls = document.getElementById("noRerolls");
-    const categoryPicker = document.getElementById("categoryPicker");
-    const categoryButtons = [...document.querySelectorAll(".category-button")];
+  btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "task-button";
+  btn.dataset.window = win.id;
+  btn.textContent = win.dataset.title || win.id;
 
-    const luckyWindow = document.querySelector(".lucky-window");
-    const dragHandle = document.getElementById("dragHandle");
-    const minimizeButton = document.getElementById("minimizeButton");
-    const closeButton = document.getElementById("closeButton");
-    const reopenButton = document.getElementById("reopenButton");
-
-    function getCategoryLabel(category) {
-      return CATEGORIES[category] || category;
+  btn.addEventListener("click", () => {
+    if(win.classList.contains("minimized")){
+      win.classList.remove("minimized");
+      focusWindow(win);
+    }else if(!win.classList.contains("closed") && !win.classList.contains("inactive")){
+      win.classList.add("minimized");
+      btn.classList.remove("active");
+    }else{
+      openWindow(win.id);
     }
+  });
 
-    function setSelectedCategory(category) {
-      selectedCategory = category;
+  taskbarApps.appendChild(btn);
+  return btn;
+}
 
-      categoryButtons.forEach(button => {
-        button.classList.toggle(
-          "active",
-          button.dataset.category === category
-        );
-      });
+function openWindow(id){
+  const win = document.getElementById(id);
+  if(!win) return;
+
+  win.classList.remove("closed","minimized");
+  ensureTaskButton(win);
+  focusWindow(win);
+}
+
+function closeWindow(win){
+  win.classList.add("closed");
+  win.classList.remove("minimized");
+
+  const btn = taskbarApps.querySelector(`[data-window="${win.id}"]`);
+  if(btn) btn.remove();
+
+  const visible = windows.filter(w => !w.classList.contains("closed") && !w.classList.contains("minimized"));
+  if(visible.length) focusWindow(visible[visible.length - 1]);
+}
+
+function minimizeWindow(win){
+  win.classList.add("minimized");
+  const btn = taskbarApps.querySelector(`[data-window="${win.id}"]`);
+  if(btn) btn.classList.remove("active");
+}
+
+document.querySelectorAll("[data-open]").forEach(el => {
+  el.addEventListener("dblclick", () => openWindow(el.dataset.open));
+  if(el.classList.contains("start-item")){
+    el.addEventListener("click", () => {
+      openWindow(el.dataset.open);
+      startMenu.classList.add("hidden");
+    });
+  }
+});
+
+windows.forEach(win => {
+  ensureTaskButton(win);
+  if(win.classList.contains("closed")){
+    const btn = taskbarApps.querySelector(`[data-window="${win.id}"]`);
+    if(btn) btn.remove();
+  }
+
+  win.addEventListener("pointerdown", () => focusWindow(win));
+
+  win.querySelector(".minimize").addEventListener("click", e => {
+    e.stopPropagation();
+    minimizeWindow(win);
+  });
+
+  win.querySelector(".close").addEventListener("click", e => {
+    e.stopPropagation();
+    closeWindow(win);
+  });
+
+  makeDraggable(win);
+});
+
+function makeDraggable(win){
+  const bar = win.querySelector(".window-titlebar");
+  let dragging = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  bar.addEventListener("pointerdown", e => {
+    if(e.target.closest(".window-controls")) return;
+
+    const rect = win.getBoundingClientRect();
+    dragging = true;
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    win.style.left = rect.left + "px";
+    win.style.top = rect.top + "px";
+    win.style.right = "auto";
+    focusWindow(win);
+
+    bar.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+
+  bar.addEventListener("pointermove", e => {
+    if(!dragging) return;
+
+    const maxLeft = Math.max(0, window.innerWidth - win.offsetWidth);
+    const maxTop = Math.max(0, window.innerHeight - 48 - win.offsetHeight);
+
+    const left = Math.min(Math.max(0, e.clientX - offsetX), maxLeft);
+    const top = Math.min(Math.max(0, e.clientY - offsetY), maxTop);
+
+    win.style.left = left + "px";
+    win.style.top = top + "px";
+  });
+
+  function stop(e){
+    dragging = false;
+    if(bar.hasPointerCapture(e.pointerId)){
+      bar.releasePointerCapture(e.pointerId);
     }
+  }
 
-    function updateCategoryButton(category, status) {
-      const button = categoryButtons.find(
-        item => item.dataset.category === category
-      );
+  bar.addEventListener("pointerup", stop);
+  bar.addEventListener("pointercancel", stop);
+}
 
-      if (!button) return;
+/* ==========================================================
+   START MENU
+   ========================================================== */
+const startButton = document.getElementById("startButton");
+const startMenu = document.getElementById("startMenu");
 
-      button.classList.remove("drawn", "empty");
+startButton.addEventListener("click", e => {
+  e.stopPropagation();
+  startMenu.classList.toggle("hidden");
+});
 
-      if (status === "drawn" || status === "already_drawn") {
-        button.classList.add("drawn");
-      } else if (status === "empty") {
-        button.classList.add("empty");
-      }
+document.addEventListener("click", e => {
+  if(!e.target.closest("#startMenu") && !e.target.closest("#startButton")){
+    startMenu.classList.add("hidden");
+  }
+});
+
+/* ==========================================================
+   CLOCK
+   ========================================================== */
+const clock = document.getElementById("clock");
+
+function updateClock(){
+  const now = new Date();
+  const time = now.toLocaleTimeString("en-US", {
+    hour:"numeric",
+    minute:"2-digit"
+  });
+  const date = now.toLocaleDateString("en-US", {
+    month:"numeric",
+    day:"numeric",
+    year:"2-digit"
+  });
+  clock.innerHTML = `${time}<br>${date}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+/* ==========================================================
+   LUCKY TASK DRAW — SINGLE DAILY DRAW
+   ========================================================== */
+const drawButton = document.getElementById("drawButton");
+const taskText = document.getElementById("taskText");
+const dateText = document.getElementById("dateText");
+const statusText = document.getElementById("statusText");
+const screenLabel = document.getElementById("screenLabel");
+const taskScreen = document.getElementById("taskScreen");
+const feelingLucky = document.getElementById("feelingLucky");
+const noRerolls = document.getElementById("noRerolls");
+
+async function checkToday(){
+  try{
+    const response = await fetch(LUCKY_WORKER_URL);
+    const data = await response.json();
+
+    if(data.status === "ready"){
+      showReadyState(data);
+    }else if(data.status === "already_drawn"){
+      showWinner(data);
+    }else{
+      showLuckyError(data.message || "Something unexpected happened.");
     }
+  }catch(error){
+    showLuckyError("Couldn't connect to Lucky Task Draw.");
+    console.error(error);
+  }
+}
 
-    async function checkCategory(category, showOnScreen = true) {
-      if (showOnScreen) {
-        showLoadingState(category);
-      }
+async function drawTask(){
+  drawButton.disabled = true;
+  drawButton.textContent = "✦ DRAWING... ✦";
+  taskText.textContent = "consulting the universe...";
+  taskText.removeAttribute("href");
+  screenLabel.textContent = "PLEASE WAIT";
+  statusText.textContent = "fate is choosing...";
 
-      try {
-        const response = await fetch(
-          `${WORKER_URL}/?category=${encodeURIComponent(category)}`
-        );
+  try{
+    const response = await fetch(LUCKY_WORKER_URL + "/draw", { method:"POST" });
+    const data = await response.json();
 
-        const data = await response.json();
-        categoryStates[category] = data;
-        updateCategoryButton(category, data.status);
-
-        if (showOnScreen && selectedCategory === category) {
-          if (data.status === "ready") {
-            showReadyState(data);
-          } else if (data.status === "already_drawn") {
-            showWinner(data);
-          } else if (data.status === "empty") {
-            showEmptyState(data);
-          } else {
-            showError(data.message || "Something unexpected happened.");
-          }
-        }
-
-        return data;
-
-      } catch (error) {
-        if (showOnScreen && selectedCategory === category) {
-          showError("Couldn't connect to Lucky Task Draw.");
-        }
-        console.error(error);
-        return null;
-      }
-    }
-
-    async function checkAllCategories() {
-      await Promise.all(
-        Object.keys(CATEGORIES).map(
-          category => checkCategory(
-            category,
-            category === selectedCategory
-          )
-        )
-      );
-    }
-
-    async function drawTask() {
-      const categoryAtClick = selectedCategory;
-
-      drawButton.disabled = true;
-      drawButton.textContent = "✦ DRAWING... ✦";
-
-      taskText.textContent = "consulting the universe...";
-      taskText.removeAttribute("href");
-      taskText.style.cursor = "default";
-
-      screenLabel.textContent = "PLEASE WAIT";
-      statusText.textContent =
-        `${getCategoryLabel(categoryAtClick)} fate is choosing...`;
-
-      try {
-        const response = await fetch(
-          WORKER_URL + "/draw",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              category: categoryAtClick
-            })
-          }
-        );
-
-        const data = await response.json();
-
-        categoryStates[categoryAtClick] = data;
-        updateCategoryButton(categoryAtClick, data.status);
-
-        if (selectedCategory !== categoryAtClick) {
-          return;
-        }
-
-        if (data.status === "drawn" || data.status === "already_drawn") {
-          showWinner(data);
-        } else if (data.status === "empty") {
-          showEmptyState(data);
-        } else {
-          showError(data.message || "The draw failed.");
-        }
-
-      } catch (error) {
-        if (selectedCategory === categoryAtClick) {
-          showError("Couldn't complete the draw.");
-        }
-        console.error(error);
-      }
-    }
-
-    function showLoadingState(category) {
-      const label = getCategoryLabel(category);
-
-      screenLabel.textContent = `CHECKING ${label.toUpperCase()}...`;
-      taskText.textContent = "checking...";
-      taskText.removeAttribute("href");
-      taskText.style.cursor = "default";
-
-      dateText.textContent = "";
-      statusText.textContent =
-        `checking today's ${label.toLowerCase()} draw...`;
-
-      feelingLucky.classList.add("hidden");
-      noRerolls.classList.add("hidden");
-      drawButton.classList.add("hidden");
-    }
-
-    function showReadyState(data) {
-      const label =
-        data.categoryLabel ||
-        getCategoryLabel(data.category || selectedCategory);
-
-      screenLabel.textContent =
-        `WAITING FOR ${label.toUpperCase()} DRAW`;
-
-      taskText.textContent = "no task drawn yet";
-      taskText.removeAttribute("href");
-      taskText.style.cursor = "default";
-
-      dateText.textContent = formatDate(data.date);
-      statusText.textContent = `${label}: ready when you are.`;
-
-      feelingLucky.textContent =
-        `feeling lucky, ${label.toLowerCase()} edition?`;
-
-      feelingLucky.classList.remove("hidden");
-      noRerolls.classList.remove("hidden");
-      drawButton.classList.remove("hidden");
-
+    if(data.status === "drawn" || data.status === "already_drawn"){
+      showWinner(data);
+    }else if(data.status === "empty"){
+      taskText.textContent = "no eligible tasks";
+      screenLabel.textContent = "NOTHING TO DRAW";
+      statusText.textContent = data.message || "Nothing eligible today.";
       drawButton.disabled = false;
       drawButton.textContent = "✦ DRAW! ✦";
+    }else{
+      showLuckyError(data.message || "The draw failed.");
     }
+  }catch(error){
+    showLuckyError("Couldn't complete the draw.");
+    console.error(error);
+  }
+}
 
-    function showWinner(data) {
-      const label =
-        data.categoryLabel ||
-        getCategoryLabel(data.category || selectedCategory);
+function showReadyState(data){
+  screenLabel.textContent = "WAITING FOR TODAY'S DRAW";
+  taskText.textContent = "no task drawn yet";
+  taskText.removeAttribute("href");
+  taskText.style.cursor = "default";
+  dateText.textContent = formatDate(data.date);
+  statusText.textContent = "ready when you are.";
+  feelingLucky.classList.remove("hidden");
+  noRerolls.classList.remove("hidden");
+  drawButton.classList.remove("hidden");
+  drawButton.disabled = false;
+  drawButton.textContent = "✦ DRAW! ✦";
+}
 
-      screenLabel.textContent =
-        `${label.toUpperCase()} DRAW HAS SPOKEN`;
+function showWinner(data){
+  screenLabel.textContent = "THE DRAW HAS SPOKEN";
+  taskText.textContent = data.task;
+  if(data.taskUrl){
+    taskText.href = data.taskUrl;
+    taskText.style.cursor = "pointer";
+  }
+  dateText.textContent = "drawn on " + formatDate(data.date);
+  statusText.textContent = "today's task has been chosen.";
+  drawButton.classList.add("hidden");
+  feelingLucky.classList.add("hidden");
+  noRerolls.classList.add("hidden");
 
-      taskText.textContent = data.task;
+  taskScreen.classList.remove("winner");
+  void taskScreen.offsetWidth;
+  taskScreen.classList.add("winner");
+}
 
-      if (data.taskUrl) {
-        taskText.href = data.taskUrl;
-        taskText.style.cursor = "pointer";
-      } else {
-        taskText.removeAttribute("href");
-        taskText.style.cursor = "default";
-      }
+function showLuckyError(message){
+  screenLabel.textContent = "ERROR";
+  taskText.textContent = "oops!";
+  taskText.removeAttribute("href");
+  taskText.style.cursor = "default";
+  dateText.textContent = "";
+  statusText.textContent = message;
+  drawButton.classList.add("hidden");
+}
 
-      dateText.textContent =
-        "drawn on " + formatDate(data.date);
+function formatDate(dateString){
+  if(!dateString) return "";
+  const [year,month,day] = dateString.split("-");
+  const date = new Date(Number(year),Number(month)-1,Number(day));
+  return date.toLocaleDateString("en-US",{
+    month:"long",
+    day:"numeric",
+    year:"numeric"
+  });
+}
 
-      statusText.textContent =
-        `today's ${label.toLowerCase()} task has been chosen.`;
+drawButton.addEventListener("click", drawTask);
 
-      drawButton.classList.add("hidden");
-      feelingLucky.classList.add("hidden");
-      noRerolls.classList.add("hidden");
+/* ==========================================================
+   NOTEPAD — LOCAL STORAGE
+   ========================================================== */
+const notepadArea = document.getElementById("notepadArea");
+const noteStatus = document.getElementById("noteStatus");
+const NOTE_KEY = "productivityDesktop.notepad";
 
-      taskScreen.classList.remove("winner");
-      void taskScreen.offsetWidth;
-      taskScreen.classList.add("winner");
-    }
+notepadArea.value = localStorage.getItem(NOTE_KEY) || "";
 
-    function showEmptyState(data) {
-      const label =
-        data.categoryLabel ||
-        getCategoryLabel(data.category || selectedCategory);
+let noteTimer;
+notepadArea.addEventListener("input", () => {
+  noteStatus.textContent = "saving...";
+  clearTimeout(noteTimer);
+  noteTimer = setTimeout(() => {
+    localStorage.setItem(NOTE_KEY, notepadArea.value);
+    noteStatus.textContent = "saved locally";
+  }, 250);
+});
 
-      screenLabel.textContent =
-        `NO ${label.toUpperCase()} TASKS`;
+/* ==========================================================
+   QUOTE GENERATOR
+   ========================================================== */
+const quoteText = document.getElementById("quoteText");
+const quoteButton = document.getElementById("quoteButton");
 
-      taskText.textContent =
-        "nothing eligible to draw";
+async function getQuote(){
+  quoteButton.disabled = true;
+  quoteButton.textContent = "finding one...";
+  quoteText.textContent = "♡";
 
-      taskText.removeAttribute("href");
-      taskText.style.cursor = "default";
+  try{
+    const response = await fetch(QUOTE_WORKER_URL);
+    const data = await response.json();
 
-      dateText.textContent = formatDate(data.date);
-      statusText.textContent =
+    if(data.status === "success" || data.status === "ok"){
+      quoteText.textContent =
+        data.quote ||
+        data.text ||
         data.message ||
-        `No eligible ${label.toLowerCase()} tasks found.`;
-
-      drawButton.classList.add("hidden");
-      feelingLucky.classList.add("hidden");
-      noRerolls.classList.add("hidden");
+        "you've got this.";
+    }else if(data.quote){
+      quoteText.textContent = data.quote;
+    }else{
+      quoteText.textContent =
+        data.message || "No quote arrived this time.";
     }
+  }catch(error){
+    quoteText.textContent = "Couldn't reach the quote jar.";
+    console.error(error);
+  }finally{
+    quoteButton.disabled = false;
+    quoteButton.textContent = "✦ new quote ✦";
+  }
+}
 
-    function showError(message) {
-      screenLabel.textContent = "ERROR";
-      taskText.textContent = "oops!";
-      taskText.removeAttribute("href");
-      taskText.style.cursor = "default";
-      dateText.textContent = "";
-      statusText.textContent = message;
+quoteButton.addEventListener("click", getQuote);
 
-      drawButton.classList.add("hidden");
-      feelingLucky.classList.add("hidden");
-      noRerolls.classList.add("hidden");
-    }
+/* ==========================================================
+   TODAY'S CHECKLIST — LOCAL STORAGE
+   ========================================================== */
+const checklistRows = document.getElementById("checklistRows");
+const addCheckItem = document.getElementById("addCheckItem");
+const clearDone = document.getElementById("clearDone");
 
-    function formatDate(dateString) {
-      if (!dateString) return "";
+function checklistKey(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+  return `productivityDesktop.checklist.${y}-${m}-${day}`;
+}
 
-      const [year, month, day] = dateString.split("-");
+let checklist = loadChecklist();
 
-      const date = new Date(
-        Number(year),
-        Number(month) - 1,
-        Number(day)
-      );
+function loadChecklist(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(checklistKey()));
+    if(Array.isArray(saved) && saved.length) return saved;
+  }catch(e){}
+  return [
+    {text:"",done:false},
+    {text:"",done:false},
+    {text:"",done:false}
+  ];
+}
 
-      return date.toLocaleDateString(
-        "en-US",
-        {
-          month: "long",
-          day: "numeric",
-          year: "numeric"
-        }
-      );
-    }
+function saveChecklist(){
+  localStorage.setItem(checklistKey(), JSON.stringify(checklist));
+}
 
-    /* WINDOW CONTROLS */
+function renderChecklist(){
+  checklistRows.innerHTML = "";
 
-    let isDragging = false;
-    let dragOffsetX = 0;
-    let dragOffsetY = 0;
+  checklist.forEach((item,index) => {
+    const row = document.createElement("label");
+    row.className = "check-row" + (item.done ? " done" : "");
 
-    function prepareWindowForDragging() {
-      const rect = luckyWindow.getBoundingClientRect();
-      luckyWindow.style.left = rect.left + "px";
-      luckyWindow.style.top = rect.top + "px";
-      luckyWindow.style.transform = "none";
-    }
+    const check = document.createElement("input");
+    check.type = "checkbox";
+    check.checked = item.done;
 
-    function startDrag(event) {
-      if (event.target.closest(".window-button")) return;
+    const text = document.createElement("input");
+    text.type = "text";
+    text.value = item.text;
+    text.placeholder = "type a task...";
 
-      prepareWindowForDragging();
+    check.addEventListener("change", () => {
+      checklist[index].done = check.checked;
+      saveChecklist();
+      renderChecklist();
+    });
 
-      const rect = luckyWindow.getBoundingClientRect();
+    text.addEventListener("input", () => {
+      checklist[index].text = text.value;
+      saveChecklist();
+    });
 
-      isDragging = true;
-      dragOffsetX = event.clientX - rect.left;
-      dragOffsetY = event.clientY - rect.top;
+    row.append(check,text);
+    checklistRows.appendChild(row);
+  });
+}
 
-      dragHandle.setPointerCapture(event.pointerId);
-      event.preventDefault();
-    }
+addCheckItem.addEventListener("click", () => {
+  checklist.push({text:"",done:false});
+  saveChecklist();
+  renderChecklist();
 
-    function dragWindow(event) {
-      if (!isDragging) return;
+  const inputs = checklistRows.querySelectorAll('input[type="text"]');
+  inputs[inputs.length - 1]?.focus();
+});
 
-      const maxLeft = Math.max(
-        0,
-        window.innerWidth - luckyWindow.offsetWidth
-      );
+clearDone.addEventListener("click", () => {
+  checklist = checklist.filter(item => !item.done);
+  if(!checklist.length) checklist = [{text:"",done:false}];
+  saveChecklist();
+  renderChecklist();
+});
 
-      const maxTop = Math.max(
-        0,
-        window.innerHeight - luckyWindow.offsetHeight
-      );
+renderChecklist();
 
-      let newLeft = event.clientX - dragOffsetX;
-      let newTop = event.clientY - dragOffsetY;
-
-      newLeft = Math.min(Math.max(0, newLeft), maxLeft);
-      newTop = Math.min(Math.max(0, newTop), maxTop);
-
-      luckyWindow.style.left = newLeft + "px";
-      luckyWindow.style.top = newTop + "px";
-    }
-
-    function stopDrag(event) {
-      if (!isDragging) return;
-
-      isDragging = false;
-
-      if (dragHandle.hasPointerCapture(event.pointerId)) {
-        dragHandle.releasePointerCapture(event.pointerId);
-      }
-    }
-
-    function toggleMinimize() {
-      const minimized =
-        luckyWindow.classList.toggle("minimized");
-
-      minimizeButton.textContent =
-        minimized ? "□" : "_";
-    }
-
-    function closeWindow() {
-      luckyWindow.classList.add("hidden");
-      reopenButton.classList.remove("hidden");
-    }
-
-    function reopenWindow() {
-      luckyWindow.classList.remove("hidden");
-      reopenButton.classList.add("hidden");
-    }
-
-    function keepWindowOnScreen() {
-      if (luckyWindow.classList.contains("hidden")) return;
-
-      const rect = luckyWindow.getBoundingClientRect();
-
-      if (luckyWindow.style.transform !== "none") return;
-
-      const maxLeft = Math.max(
-        0,
-        window.innerWidth - luckyWindow.offsetWidth
-      );
-
-      const maxTop = Math.max(
-        0,
-        window.innerHeight - luckyWindow.offsetHeight
-      );
-
-      luckyWindow.style.left =
-        Math.min(Math.max(0, rect.left), maxLeft) + "px";
-
-      luckyWindow.style.top =
-        Math.min(Math.max(0, rect.top), maxTop) + "px";
-    }
-
-    drawButton.addEventListener("click", drawTask);
-
-    categoryPicker.addEventListener(
-      "click",
-      event => {
-        const button =
-          event.target.closest(".category-button");
-
-        if (!button) return;
-
-        const category = button.dataset.category;
-        setSelectedCategory(category);
-
-        const cached = categoryStates[category];
-
-        if (!cached) {
-          checkCategory(category, true);
-          return;
-        }
-
-        if (cached.status === "drawn" || cached.status === "already_drawn") {
-          showWinner(cached);
-        } else if (cached.status === "ready") {
-          showReadyState(cached);
-        } else if (cached.status === "empty") {
-          showEmptyState(cached);
-        } else {
-          checkCategory(category, true);
-        }
-      }
-    );
-
-    dragHandle.addEventListener("pointerdown", startDrag);
-    dragHandle.addEventListener("pointermove", dragWindow);
-    dragHandle.addEventListener("pointerup", stopDrag);
-    dragHandle.addEventListener("pointercancel", stopDrag);
-
-    minimizeButton.addEventListener("click", toggleMinimize);
-    closeButton.addEventListener("click", closeWindow);
-    reopenButton.addEventListener("click", reopenWindow);
-
-    window.addEventListener("resize", keepWindowOnScreen);
-
-    checkAllCategories();
-
-  </script>
-
+/* ==========================================================
+   INITIAL STATE
+   ========================================================== */
+focusWindow(document.getElementById("luckyWindow"));
+checkToday();
+</script>
 </body>
 </html>
