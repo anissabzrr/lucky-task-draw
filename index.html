@@ -634,6 +634,549 @@ button,input,textarea{ font:inherit; }
   .task-button{ min-width:56px; max-width:90px; font-size:0; }
   .task-button::first-letter{ font-size:13px; }
 }
+
+/* ==========================================================
+   V2 — VISTA / AERO DESKTOP SHELL
+   ========================================================== */
+:root{
+  --taskbar-h: 52px;
+  --aero-pink: rgba(222, 164, 191, .72);
+  --aero-light: rgba(255,255,255,.74);
+  --aero-dark: rgba(88,52,68,.82);
+  --aero-edge: rgba(73,45,58,.72);
+}
+
+body{
+  background:
+    radial-gradient(circle at 72% 20%, rgba(255,255,255,.30), transparent 30%),
+    linear-gradient(rgba(255,242,249,.05), rgba(83,47,63,.08)),
+    url("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjicyTdWfkg8QqoKsFbmZqoY2UQrBYczeojHgKTHmKK7_-_Lsql7W6Fd13pbE61dbCo0XYH2pS6YbjiqI38AUxxwrz30DVrOaNLNPnMDuLj8-uz_O9OFnRTKMVe_HxRH0cvp64mofoo3B1SQGegsQpskvoC4UVTfgRKxCxzI46A9t73ZrwbgKKjFFO0ORE/s1600/22cde72e540d83ebb2c128752215247f.jpg");
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: cover, cover, auto 640px;
+}
+
+.desktop::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(110deg, rgba(255,255,255,.06), transparent 32%),
+    radial-gradient(circle at 78% 82%, rgba(255,255,255,.13), transparent 24%);
+  z-index:1;
+}
+
+.desktop-icons{
+  top:20px;
+  left:18px;
+  gap:12px;
+  z-index:3;
+}
+
+.desktop-icon{
+  width:92px;
+  padding:7px 5px 6px;
+  border-radius:4px;
+  color:white;
+  text-shadow:
+    0 1px 2px rgba(0,0,0,.95),
+    0 0 4px rgba(0,0,0,.5);
+  transition:background .12s ease, border-color .12s ease, transform .12s ease;
+}
+
+.desktop-icon:hover,
+.desktop-icon.selected{
+  border-color:rgba(255,255,255,.50);
+  background:
+    linear-gradient(rgba(255,255,255,.28),rgba(255,255,255,.12));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);
+}
+
+.desktop-icon:active{ transform:translateY(1px); }
+
+.desktop-icon .icon{
+  position:relative;
+  width:54px;
+  height:54px;
+  border-radius:11px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -8px 18px rgba(82,43,61,.18),
+    0 3px 7px rgba(39,24,31,.42);
+}
+
+.desktop-icon .icon::before{
+  content:"";
+  position:absolute;
+  left:5px;
+  right:5px;
+  top:4px;
+  height:20px;
+  border-radius:9px 9px 16px 16px;
+  background:linear-gradient(rgba(255,255,255,.85),rgba(255,255,255,.08));
+  pointer-events:none;
+}
+
+.icon-glyph{
+  position:relative;
+  z-index:2;
+  font-family:Georgia,serif;
+  font-weight:bold;
+  text-shadow:0 1px 2px rgba(57,28,42,.55);
+}
+
+.icon-lucky{ background:linear-gradient(145deg,#ffd9e8,#c36d95 68%,#824461); }
+.icon-note{ background:linear-gradient(145deg,#fffef7,#f3d99e 67%,#b78a44); color:#7a5b2e; }
+.icon-note .icon-glyph{ font-family:"Segoe UI",Arial,sans-serif; }
+.icon-quotes{ background:linear-gradient(145deg,#e6eefc,#aebbd8 67%,#727f9e); color:#fff; }
+.icon-quotes .icon-glyph{ font-size:35px; line-height:.7; }
+.icon-check{ background:linear-gradient(145deg,#e9f3dc,#afc68c 67%,#758c56); color:#fff; }
+
+.desktop-icon span:last-child{
+  font-size:12px;
+  line-height:1.12;
+  font-weight:500;
+}
+
+/* Aero glass window frame */
+.app-window{
+  border:1px solid var(--aero-edge);
+  border-radius:9px;
+  overflow:hidden;
+  background:rgba(252,247,245,.96);
+  box-shadow:
+    0 15px 38px rgba(40,23,32,.42),
+    0 0 0 1px rgba(255,255,255,.65),
+    inset 0 0 0 1px rgba(255,255,255,.52);
+  transition:
+    opacity .15s ease,
+    transform .15s ease,
+    filter .15s ease,
+    box-shadow .15s ease;
+}
+
+.app-window:not(.inactive){
+  box-shadow:
+    0 18px 44px rgba(40,23,32,.46),
+    0 0 0 1px rgba(255,255,255,.78),
+    0 0 15px rgba(238,176,204,.24);
+}
+
+.app-window.inactive{
+  filter:saturate(.72) brightness(.96);
+}
+
+.app-window.window-opening{
+  animation:vistaWindowOpen .17s ease-out both;
+}
+
+.app-window.window-closing{
+  animation:vistaWindowClose .14s ease-in both;
+}
+
+@keyframes vistaWindowOpen{
+  from{ opacity:0; transform:scale(.965) translateY(8px); }
+  to{ opacity:1; transform:scale(1) translateY(0); }
+}
+
+@keyframes vistaWindowClose{
+  from{ opacity:1; transform:scale(1); }
+  to{ opacity:0; transform:scale(.975) translateY(5px); }
+}
+
+.app-window.maximized{
+  left:6px !important;
+  top:6px !important;
+  width:calc(100vw - 12px) !important;
+  height:calc(100vh - var(--taskbar-h) - 12px) !important;
+}
+
+.app-window.maximized .window-body{
+  max-height:calc(100vh - var(--taskbar-h) - 58px);
+}
+
+.window-titlebar{
+  position:relative;
+  height:39px;
+  padding:0 6px 0 11px;
+  border-bottom:1px solid rgba(92,58,72,.48);
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,.88) 0%,
+      rgba(255,244,249,.67) 16%,
+      rgba(226,173,198,.70) 52%,
+      rgba(191,126,157,.78) 53%,
+      rgba(222,164,190,.73) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    inset 0 -1px 0 rgba(255,255,255,.22);
+  backdrop-filter:blur(14px) saturate(1.35);
+}
+
+.window-titlebar::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:1px;
+  height:15px;
+  pointer-events:none;
+  background:linear-gradient(rgba(255,255,255,.42),rgba(255,255,255,0));
+}
+
+.app-window.inactive .window-titlebar{
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,.72),
+      rgba(218,201,208,.76) 52%,
+      rgba(183,159,170,.76) 53%,
+      rgba(207,188,197,.78));
+}
+
+.window-title{
+  position:relative;
+  z-index:2;
+  color:#472d39;
+  font-weight:600;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.95),
+    0 0 3px rgba(255,255,255,.85);
+}
+
+.window-controls{
+  position:relative;
+  align-self:flex-start;
+  z-index:3;
+  gap:0;
+  margin-top:0;
+}
+
+.win-btn{
+  width:31px;
+  height:22px;
+  border-radius:0;
+  border-top:0;
+  border-color:rgba(83,47,64,.52);
+  background:
+    linear-gradient(#fffafc 0%,#efd9e3 46%,#d5a7bc 52%,#e3bed0 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.92),
+    inset 0 -1px 0 rgba(255,255,255,.28);
+  color:#5d3b4a;
+  font-family:"Segoe UI Symbol","Segoe UI",sans-serif;
+  font-size:12px;
+}
+
+.win-btn:first-child{ border-radius:0 0 0 4px; }
+.win-btn.close{
+  width:43px;
+  border-radius:0 0 5px 0;
+  color:#fff;
+  text-shadow:0 1px 1px #672837;
+  background:linear-gradient(#f3c9cf,#d56f7c 48%,#b63f50 52%,#d66b78);
+}
+.win-btn:hover{
+  background:linear-gradient(#fff,#f7e9ef 48%,#dfb5c8 52%,#f4dce7);
+  box-shadow:0 0 7px rgba(255,255,255,.85);
+}
+.win-btn.close:hover{
+  background:linear-gradient(#ffd9dd,#f58c98 48%,#d3384d 52%,#ef6c7b);
+  box-shadow:0 0 9px rgba(255,94,112,.62);
+}
+
+/* taskbar: translucent Vista slab */
+.taskbar{
+  height:var(--taskbar-h);
+  gap:8px;
+  padding:5px 8px 4px 6px;
+  border-top:1px solid rgba(255,255,255,.78);
+  background:
+    linear-gradient(to bottom,
+      rgba(255,255,255,.42) 0%,
+      rgba(222,177,199,.72) 18%,
+      rgba(145,88,115,.82) 50%,
+      rgba(113,65,88,.88) 52%,
+      rgba(173,112,141,.85) 100%);
+  backdrop-filter:blur(18px) saturate(1.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.76),
+    0 -1px 0 rgba(72,42,56,.42),
+    0 -6px 22px rgba(46,26,36,.20);
+}
+
+.start-button{
+  width:48px;
+  height:48px;
+  padding:0;
+  margin:-3px 2px 0 -1px;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  border-radius:50%;
+  justify-content:center;
+}
+
+.start-button > span:last-child{ display:none; }
+
+.start-orb{
+  position:relative;
+  width:45px;
+  height:45px;
+  border:1px solid rgba(77,42,59,.85);
+  background:
+    radial-gradient(circle at 35% 28%, #fff 0 10%, #f8cfe0 21%, #cf7ca3 48%, #9e4d75 68%, #622d48 100%);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.35),
+    inset 0 -6px 10px rgba(58,22,40,.25),
+    0 0 5px rgba(255,255,255,.48),
+    0 2px 5px rgba(34,19,27,.55);
+  font-size:20px;
+}
+
+.start-orb::before{
+  content:"";
+  position:absolute;
+  width:27px;
+  height:12px;
+  top:5px;
+  left:8px;
+  border-radius:50%;
+  background:rgba(255,255,255,.34);
+  transform:rotate(-15deg);
+}
+
+.start-button:hover .start-orb{
+  filter:brightness(1.09);
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.48),
+    0 0 12px rgba(255,211,230,.82),
+    0 2px 5px rgba(34,19,27,.55);
+}
+
+.task-button{
+  height:38px;
+  min-width:126px;
+  border-radius:4px;
+  border:1px solid rgba(73,42,57,.57);
+  color:white;
+  text-shadow:0 1px 2px rgba(55,29,42,.85);
+  background:
+    linear-gradient(rgba(255,255,255,.25),rgba(255,255,255,.04)),
+    rgba(120,67,92,.42);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -1px 0 rgba(41,20,31,.18);
+}
+
+.task-button:hover{
+  background:
+    linear-gradient(rgba(255,255,255,.40),rgba(255,255,255,.08)),
+    rgba(161,91,124,.48);
+}
+
+.task-button.active{
+  background:
+    linear-gradient(rgba(255,255,255,.50),rgba(255,255,255,.11)),
+    rgba(199,128,159,.55);
+  box-shadow:
+    inset 0 0 8px rgba(255,255,255,.18),
+    0 0 7px rgba(255,225,238,.20);
+}
+
+.tray{
+  height:42px;
+  min-width:134px;
+  color:white;
+  border:1px solid rgba(255,255,255,.14);
+  border-right:0;
+  background:rgba(77,43,61,.22);
+  text-shadow:0 1px 2px rgba(42,20,31,.9);
+  box-shadow:inset 1px 0 0 rgba(255,255,255,.17);
+}
+.tray-caret{ font-size:8px; opacity:.8; }
+.tray-icons{ letter-spacing:2px; }
+
+/* Start Menu */
+.start-menu{
+  left:7px;
+  bottom:51px;
+  width:485px;
+  border-radius:9px 9px 2px 2px;
+  border:1px solid rgba(71,40,55,.83);
+  background:
+    linear-gradient(rgba(255,255,255,.20),rgba(255,255,255,.02)),
+    rgba(137,80,108,.86);
+  backdrop-filter:blur(20px) saturate(1.25);
+  box-shadow:
+    0 -1px 0 rgba(255,255,255,.40),
+    0 12px 36px rgba(36,19,28,.47),
+    inset 0 0 0 1px rgba(255,255,255,.17);
+  transform-origin:bottom left;
+}
+
+.start-menu:not(.hidden){
+  animation:startMenuIn .14s ease-out both;
+}
+
+@keyframes startMenuIn{
+  from{ opacity:0; transform:translateY(8px) scale(.985); }
+  to{ opacity:1; transform:none; }
+}
+
+.start-glow{
+  position:absolute;
+  width:200px;
+  height:130px;
+  top:-60px;
+  left:-35px;
+  pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,.33),transparent 65%);
+}
+
+.start-head{
+  height:75px;
+  padding:11px 14px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  background:transparent;
+  text-shadow:0 1px 2px rgba(62,30,45,.8);
+}
+
+.user-tile{
+  width:50px;
+  height:50px;
+  display:grid;
+  place-items:center;
+  border:2px solid rgba(255,255,255,.90);
+  border-radius:6px;
+  background:linear-gradient(#ffeaf3,#c5799d);
+  box-shadow:0 2px 8px rgba(55,27,41,.42),inset 0 1px 0 white;
+  font-size:22px;
+}
+
+.start-user{ font-size:14px; font-weight:600; }
+.start-subtitle{ margin-top:2px; font-size:10px; font-weight:400; opacity:.88; }
+
+.start-content{
+  display:grid;
+  grid-template-columns:292px 1fr;
+  min-height:285px;
+  margin:0 7px;
+  border:1px solid rgba(255,255,255,.42);
+  border-radius:5px 5px 0 0;
+  overflow:hidden;
+  background:rgba(255,255,255,.92);
+  box-shadow:inset 0 1px 0 white;
+}
+
+.start-list{ padding:7px; }
+
+.start-item{
+  min-height:59px;
+  padding:6px 8px;
+  gap:10px;
+  border:1px solid transparent;
+  border-radius:3px;
+  color:#4f3740;
+}
+
+.start-item:hover{
+  border-color:#d6a6bb;
+  background:linear-gradient(#fff9fb,#f1d7e2);
+  box-shadow:inset 0 1px 0 white;
+}
+
+.start-item > span:last-child{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.start-item b{
+  font-size:12px;
+  font-weight:600;
+}
+
+.start-item small{
+  font-size:10px;
+  color:#876875;
+}
+
+.mini-app{
+  width:39px;
+  height:39px;
+  display:grid;
+  place-items:center;
+  flex:0 0 39px;
+  border-radius:7px;
+  border:1px solid rgba(84,55,68,.26);
+  box-shadow:inset 0 1px 0 white,0 1px 3px rgba(64,42,51,.18);
+  font-weight:bold;
+}
+.lucky-mini{ background:linear-gradient(#ffd9e7,#c87599); color:white; }
+.note-mini{ background:linear-gradient(#fffef2,#eed79f); color:#84662f; }
+.quote-mini{ background:linear-gradient(#eef2fb,#aab7d4); color:white; font:28px Georgia,serif; }
+.check-mini{ background:linear-gradient(#edf5e3,#aac483); color:white; }
+
+.start-side{
+  padding:17px 10px;
+  background:
+    linear-gradient(rgba(255,255,255,.15),rgba(255,255,255,0)),
+    linear-gradient(#c88eaa,#a76584);
+  color:white;
+  text-shadow:0 1px 2px rgba(65,31,47,.65);
+}
+
+.side-link{
+  display:block;
+  width:100%;
+  padding:8px 8px;
+  border:0;
+  border-radius:3px;
+  background:transparent;
+  color:white;
+  text-align:left;
+  font-size:11px;
+  cursor:pointer;
+}
+.side-link:hover{ background:rgba(255,255,255,.16); }
+.side-divider{ height:1px; margin:8px 5px; background:rgba(255,255,255,.25); }
+.side-note{ padding:7px 8px; font-size:10px; line-height:1.4; opacity:.92; }
+
+.start-footer{
+  height:43px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  padding:0 14px;
+  color:white;
+  font-size:10px;
+  text-shadow:0 1px 2px rgba(48,21,35,.85);
+}
+
+.start-power{
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:24px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:4px;
+  background:linear-gradient(rgba(255,255,255,.26),rgba(255,255,255,.06));
+  font-size:15px;
+}
+
+@media(max-width:700px){
+  .start-menu{ width:min(485px,calc(100vw - 12px)); }
+  .start-content{ grid-template-columns:1fr; }
+  .start-side{ display:none; }
+  .desktop-icon{ width:78px; }
+  .task-button{ min-width:60px; max-width:100px; }
+}
+
 </style>
 </head>
 
@@ -642,16 +1185,16 @@ button,input,textarea{ font:inherit; }
 
   <div class="desktop-icons">
     <button class="desktop-icon" data-open="luckyWindow" type="button">
-      <span class="icon">🎲</span><span>Lucky Draw</span>
+      <span class="icon icon-lucky"><span class="icon-glyph">✦</span></span><span>Lucky Draw</span>
     </button>
     <button class="desktop-icon" data-open="notepadWindow" type="button">
-      <span class="icon">📝</span><span>Notepad</span>
+      <span class="icon icon-note"><span class="icon-glyph">A</span></span><span>Notepad</span>
     </button>
     <button class="desktop-icon" data-open="quotesWindow" type="button">
-      <span class="icon">💬</span><span>Quotes</span>
+      <span class="icon icon-quotes"><span class="icon-glyph">“</span></span><span>Quotes</span>
     </button>
     <button class="desktop-icon" data-open="checklistWindow" type="button">
-      <span class="icon">📋</span><span>Today's Checklist</span>
+      <span class="icon icon-check"><span class="icon-glyph">✓</span></span><span>Today's Checklist</span>
     </button>
   </div>
 
@@ -660,7 +1203,8 @@ button,input,textarea{ font:inherit; }
     <div class="window-titlebar">
       <div class="window-title">🎲 lucky task draw</div>
       <div class="window-controls">
-        <button class="win-btn minimize" type="button" aria-label="Minimize">_</button>
+        <button class="win-btn minimize" type="button" aria-label="Minimize">−</button>
+        <button class="win-btn maximize" type="button" aria-label="Maximize">□</button>
         <button class="win-btn close" type="button" aria-label="Close">×</button>
       </div>
     </div>
@@ -698,7 +1242,8 @@ button,input,textarea{ font:inherit; }
     <div class="window-titlebar">
       <div class="window-title">📝 Notepad</div>
       <div class="window-controls">
-        <button class="win-btn minimize" type="button" aria-label="Minimize">_</button>
+        <button class="win-btn minimize" type="button" aria-label="Minimize">−</button>
+        <button class="win-btn maximize" type="button" aria-label="Maximize">□</button>
         <button class="win-btn close" type="button" aria-label="Close">×</button>
       </div>
     </div>
@@ -712,7 +1257,8 @@ button,input,textarea{ font:inherit; }
     <div class="window-titlebar">
       <div class="window-title">💬 little motivation machine</div>
       <div class="window-controls">
-        <button class="win-btn minimize" type="button" aria-label="Minimize">_</button>
+        <button class="win-btn minimize" type="button" aria-label="Minimize">−</button>
+        <button class="win-btn maximize" type="button" aria-label="Maximize">□</button>
         <button class="win-btn close" type="button" aria-label="Close">×</button>
       </div>
     </div>
@@ -730,7 +1276,8 @@ button,input,textarea{ font:inherit; }
     <div class="window-titlebar">
       <div class="window-title">📋 today's checklist</div>
       <div class="window-controls">
-        <button class="win-btn minimize" type="button" aria-label="Minimize">_</button>
+        <button class="win-btn minimize" type="button" aria-label="Minimize">−</button>
+        <button class="win-btn maximize" type="button" aria-label="Maximize">□</button>
         <button class="win-btn close" type="button" aria-label="Close">×</button>
       </div>
     </div>
@@ -749,12 +1296,31 @@ button,input,textarea{ font:inherit; }
 </div>
 
 <div class="start-menu hidden" id="startMenu">
-  <div class="start-head">♡ productivity desktop</div>
-  <div class="start-list">
-    <button class="start-item" data-open="luckyWindow" type="button">🎲 Lucky Task Draw</button>
-    <button class="start-item" data-open="notepadWindow" type="button">📝 Notepad</button>
-    <button class="start-item" data-open="quotesWindow" type="button">💬 Quote Generator</button>
-    <button class="start-item" data-open="checklistWindow" type="button">📋 Today's Checklist</button>
+  <div class="start-glow"></div>
+  <div class="start-head">
+    <div class="user-tile">♡</div>
+    <div>
+      <div class="start-user">productivity desktop</div>
+      <div class="start-subtitle">my little corner of the computer</div>
+    </div>
+  </div>
+  <div class="start-content">
+    <div class="start-list">
+      <button class="start-item" data-open="luckyWindow" type="button"><span class="mini-app lucky-mini">✦</span><span><b>Lucky Task Draw</b><small>choose today's mission</small></span></button>
+      <button class="start-item" data-open="notepadWindow" type="button"><span class="mini-app note-mini">A</span><span><b>Notepad</b><small>scratch pad & notes</small></span></button>
+      <button class="start-item" data-open="quotesWindow" type="button"><span class="mini-app quote-mini">“</span><span><b>Quote Generator</b><small>a tiny morale boost</small></span></button>
+      <button class="start-item" data-open="checklistWindow" type="button"><span class="mini-app check-mini">✓</span><span><b>Today's Checklist</b><small>keep the day moving</small></span></button>
+    </div>
+    <div class="start-side">
+      <button type="button" class="side-link" data-open="notepadWindow">Documents</button>
+      <button type="button" class="side-link" data-open="checklistWindow">Tasks</button>
+      <div class="side-divider"></div>
+      <div class="side-note">♡ have a productive day</div>
+    </div>
+  </div>
+  <div class="start-footer">
+    <span>Productivity Desktop</span>
+    <span class="start-power" title="decorative power button">◉</span>
   </div>
 </div>
 
@@ -765,7 +1331,7 @@ button,input,textarea{ font:inherit; }
   </button>
   <div class="taskbar-apps" id="taskbarApps"></div>
   <div class="tray">
-    <span>☁︎ ♡</span>
+    <span class="tray-caret">▲</span><span class="tray-icons">◌ ♡</span>
     <span id="clock"></span>
   </div>
 </div>
@@ -829,6 +1395,7 @@ function openWindow(id){
   win.classList.remove("closed","minimized");
   ensureTaskButton(win);
   focusWindow(win);
+  animateOpen(win);
 }
 
 function closeWindow(win){
@@ -943,6 +1510,78 @@ document.addEventListener("click", e => {
     startMenu.classList.add("hidden");
   }
 });
+
+
+/* ==========================================================
+   V2 — WINDOW ANIMATIONS + MAXIMIZE
+   ========================================================== */
+const restoreRects = new Map();
+
+function animateOpen(win){
+  win.classList.remove("window-opening");
+  void win.offsetWidth;
+  win.classList.add("window-opening");
+  win.addEventListener("animationend", () => {
+    win.classList.remove("window-opening");
+  }, {once:true});
+}
+
+function toggleMaximize(win){
+  if(!win) return;
+
+  if(win.classList.contains("maximized")){
+    win.classList.remove("maximized");
+    const old = restoreRects.get(win.id);
+    if(old){
+      win.style.left = old.left;
+      win.style.top = old.top;
+      win.style.width = old.width;
+      win.style.height = old.height;
+    }
+  }else{
+    const rect = win.getBoundingClientRect();
+    restoreRects.set(win.id, {
+      left: rect.left + "px",
+      top: rect.top + "px",
+      width: win.style.width || "",
+      height: win.style.height || ""
+    });
+    win.classList.add("maximized");
+  }
+
+  const maxBtn = win.querySelector(".maximize");
+  if(maxBtn){
+    maxBtn.textContent = win.classList.contains("maximized") ? "❐" : "□";
+  }
+  focusWindow(win);
+}
+
+document.querySelectorAll(".app-window").forEach(win => {
+  const maxBtn = win.querySelector(".maximize");
+  if(maxBtn){
+    maxBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      toggleMaximize(win);
+    });
+  }
+
+  const bar = win.querySelector(".window-titlebar");
+  if(bar){
+    bar.addEventListener("dblclick", e => {
+      if(e.target.closest(".window-controls")) return;
+      toggleMaximize(win);
+    });
+  }
+});
+
+/* Start-menu side shortcuts are single-click app launchers. */
+document.querySelectorAll(".side-link[data-open]").forEach(el => {
+  el.addEventListener("click", () => {
+    openWindow(el.dataset.open);
+    startMenu.classList.add("hidden");
+  });
+});
+
 
 /* ==========================================================
    CLOCK
