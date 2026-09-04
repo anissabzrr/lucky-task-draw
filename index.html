@@ -2085,6 +2085,326 @@ body{
   -webkit-backdrop-filter:blur(14px) saturate(1.22) !important;
 }
 
+
+/* ==========================================================
+   V7 — AUTHENTIC VISTA START MENU
+   ========================================================== */
+
+.start-menu{
+  left:7px !important;
+  bottom:38px !important;
+  width:360px !important;
+  padding:0 !important;
+  border-radius:8px 8px 3px 3px !important;
+  border:1px solid rgba(56,27,42,.82) !important;
+  overflow:visible !important;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.24),rgba(255,255,255,.04)),
+    rgba(97,45,70,.58) !important;
+  backdrop-filter:blur(20px) saturate(1.28) !important;
+  -webkit-backdrop-filter:blur(20px) saturate(1.28) !important;
+  box-shadow:
+    0 14px 34px rgba(38,15,28,.48),
+    inset 0 1px 0 rgba(255,255,255,.38),
+    0 0 0 1px rgba(255,255,255,.08) !important;
+}
+
+.start-menu-shell{
+  position:relative;
+  padding:8px 7px 7px;
+}
+
+.start-user-tile{
+  position:absolute;
+  z-index:8;
+  top:-22px;
+  left:257px;
+  width:51px;
+  height:51px;
+  display:grid;
+  place-items:center;
+  border:2px solid rgba(255,255,255,.88);
+  border-radius:6px;
+  background:
+    radial-gradient(circle at 48% 38%,rgba(255,255,255,.88),transparent 24%),
+    linear-gradient(#ffdceb,#cc769d);
+  box-shadow:
+    0 2px 8px rgba(40,15,28,.55),
+    inset 0 1px 0 rgba(255,255,255,.94);
+  font-size:28px;
+}
+
+.start-main{
+  display:grid;
+  grid-template-columns:218px 1fr;
+  min-height:314px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.20);
+  border-radius:5px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.26);
+}
+
+.start-left{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:314px;
+  padding:9px 7px 7px;
+  background:
+    linear-gradient(to right,rgba(255,255,255,.98),rgba(250,247,248,.97));
+  color:#2f252a;
+}
+
+.start-programs{
+  flex:1 1 auto;
+}
+
+.start-program{
+  width:100%;
+  min-height:35px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:3px 5px;
+  border:1px solid transparent;
+  border-radius:3px;
+  background:transparent;
+  color:#2f252a;
+  text-align:left;
+  font:12px "Segoe UI",Tahoma,Arial,sans-serif;
+  cursor:default;
+}
+
+.start-program:hover{
+  border-color:#d7a9bd;
+  background:linear-gradient(#fff8fb,#efd5e1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+}
+
+.start-program-divider{
+  height:1px;
+  margin:4px 5px;
+  background:#ddd4d8;
+}
+
+.vista-program-icon{
+  width:26px;
+  height:26px;
+  flex:0 0 26px;
+  display:grid;
+  place-items:center;
+  border-radius:5px;
+  border:1px solid rgba(78,49,62,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 1px 2px rgba(56,34,44,.14);
+  font-weight:700;
+}
+
+.internet-icon{
+  background:linear-gradient(145deg,#f8d953,#e9a72e 45%,#4da4d3 48%,#1278b8);
+  color:white;
+  font:700 italic 18px Georgia,serif;
+}
+.mail-icon{
+  background:linear-gradient(#f5f5f5,#bfd8e5);
+  color:#4381a5;
+}
+.note-icon{
+  background:linear-gradient(#f8ffff,#a8d4df);
+  color:#477887;
+}
+.lucky-icon{
+  background:linear-gradient(#ffd8e8,#c6578b);
+  color:white;
+}
+.quote-icon{
+  background:linear-gradient(#ffe0eb,#d5779d);
+  color:white;
+  font:19px Georgia,serif;
+}
+.checklist-icon{
+  background:linear-gradient(#fffdf4,#dcc889);
+  color:#8b7040;
+}
+.sticky-icon{
+  background:linear-gradient(135deg,#fff6a8,#e8d25d);
+  color:#ab8d25;
+}
+
+.program-copy{
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+}
+.program-copy b{
+  font-size:12px;
+  font-weight:600;
+  line-height:1.1;
+}
+.program-copy small{
+  margin-top:1px;
+  color:#797078;
+  font-size:9px;
+  line-height:1.1;
+}
+
+.all-programs{
+  height:29px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:3px;
+  padding:0 8px;
+  border:0;
+  border-top:1px solid #ddd5d9;
+  background:transparent;
+  color:#353037;
+  text-align:left;
+  font:11px "Segoe UI",Tahoma,sans-serif;
+}
+.all-programs:hover{
+  background:linear-gradient(#fff9fb,#efdae3);
+}
+.all-arrow{
+  color:#888;
+  font-size:9px;
+}
+.all-chevron{
+  margin-left:auto;
+  color:#aaa;
+  font-size:16px;
+}
+
+.start-search-wrap{
+  position:relative;
+  height:27px;
+  margin-top:3px;
+}
+.start-search{
+  width:100%;
+  height:27px;
+  padding:0 28px 0 8px;
+  border:1px solid #b7aeb3;
+  border-radius:3px;
+  outline:none;
+  background:rgba(255,255,255,.98);
+  color:#3c3438;
+  font:11px "Segoe UI",Tahoma,sans-serif;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.08);
+}
+.start-search:focus{
+  border-color:#c887a7;
+  box-shadow:0 0 0 1px rgba(227,161,192,.30),inset 0 1px 2px rgba(0,0,0,.06);
+}
+.search-glass{
+  position:absolute;
+  right:8px;
+  top:4px;
+  color:#6c8ba0;
+  font-size:16px;
+  pointer-events:none;
+}
+
+.start-right{
+  position:relative;
+  min-height:314px;
+  padding:43px 9px 52px;
+  color:white;
+  background:
+    linear-gradient(to right,rgba(255,255,255,.07),rgba(255,255,255,.015)),
+    rgba(84,38,62,.52);
+  text-shadow:0 1px 2px rgba(40,15,28,.74);
+}
+
+.start-user-name{
+  margin:0 0 7px 1px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.vista-side-link{
+  width:100%;
+  min-height:29px;
+  display:block;
+  padding:5px 7px;
+  border:1px solid transparent;
+  border-radius:3px;
+  background:transparent;
+  color:white;
+  text-align:left;
+  font:11px "Segoe UI",Tahoma,sans-serif;
+  text-shadow:0 1px 2px rgba(40,15,28,.70);
+}
+.vista-side-link:hover{
+  border-color:rgba(255,255,255,.18);
+  background:linear-gradient(rgba(255,255,255,.16),rgba(255,255,255,.05));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13);
+}
+
+.start-side-divider{
+  height:1px;
+  margin:6px 4px;
+  background:rgba(255,255,255,.22);
+  box-shadow:0 1px 0 rgba(45,15,31,.22);
+}
+
+.shutdown-row{
+  position:absolute;
+  right:7px;
+  bottom:7px;
+  height:27px;
+  display:flex;
+  align-items:stretch;
+}
+
+.shutdown-button,
+.shutdown-arrow{
+  border:1px solid rgba(44,16,30,.64);
+  color:white;
+  background:
+    linear-gradient(to bottom,rgba(255,255,255,.26),rgba(255,255,255,.03)),
+    rgba(91,42,66,.72);
+  text-shadow:0 1px 2px rgba(35,12,23,.95);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.26);
+  font:10px "Segoe UI",Tahoma,sans-serif;
+}
+.shutdown-button{
+  padding:0 15px;
+  border-radius:3px 0 0 3px;
+}
+.shutdown-arrow{
+  width:23px;
+  margin-left:1px;
+  border-radius:0 3px 3px 0;
+  font-size:16px;
+}
+.shutdown-button:hover,
+.shutdown-arrow:hover{
+  background:
+    linear-gradient(to bottom,rgba(255,255,255,.34),rgba(255,255,255,.06)),
+    rgba(126,59,91,.78);
+}
+
+/* Hide obsolete v2/v3 Start-menu pieces if any survive elsewhere */
+.start-head,
+.start-content,
+.start-footer,
+.start-glow{
+  display:none !important;
+}
+
+@media(max-width:700px){
+  .start-menu{
+    width:min(360px,calc(100vw - 10px)) !important;
+  }
+  .start-main{
+    grid-template-columns:minmax(205px,1fr) 128px;
+  }
+  .start-user-tile{
+    left:auto;
+    right:41px;
+  }
+}
+
 </style>
 </head>
 
@@ -2203,34 +2523,87 @@ body{
 
 </div>
 
+
 <div class="start-menu hidden" id="startMenu">
-  <div class="start-glow"></div>
-  <div class="start-head">
-    <div class="user-tile">♡</div>
-    <div>
-      <div class="start-user">productivity desktop</div>
-      <div class="start-subtitle">my little corner of the computer</div>
+  <div class="start-menu-shell">
+    <div class="start-user-tile" title="Productivity User">🌸</div>
+
+    <div class="start-main">
+      <div class="start-left">
+        <div class="start-programs" id="startPrograms">
+          <button class="start-program start-fake" type="button">
+            <span class="vista-program-icon internet-icon">e</span>
+            <span class="program-copy"><b>Internet</b><small>Windows Explorer</small></span>
+          </button>
+
+          <button class="start-program start-fake" type="button">
+            <span class="vista-program-icon mail-icon">✉</span>
+            <span class="program-copy"><b>E-mail</b><small>Windows Mail</small></span>
+          </button>
+
+          <div class="start-program-divider"></div>
+
+          <button class="start-program start-item" data-open="notepadWindow" type="button">
+            <span class="vista-program-icon note-icon">A</span>
+            <span class="program-copy"><b>Notepad</b></span>
+          </button>
+
+          <button class="start-program start-item" data-open="luckyWindow" type="button">
+            <span class="vista-program-icon lucky-icon">✦</span>
+            <span class="program-copy"><b>Lucky Task Draw</b></span>
+          </button>
+
+          <button class="start-program start-item" data-open="quotesWindow" type="button">
+            <span class="vista-program-icon quote-icon">“</span>
+            <span class="program-copy"><b>Quote Generator</b></span>
+          </button>
+
+          <button class="start-program start-item" data-open="checklistWindow" type="button">
+            <span class="vista-program-icon checklist-icon">✓</span>
+            <span class="program-copy"><b>Today's Checklist</b></span>
+          </button>
+
+          <button class="start-program start-fake" type="button">
+            <span class="vista-program-icon sticky-icon">◆</span>
+            <span class="program-copy"><b>Sticky Notes</b></span>
+          </button>
+        </div>
+
+        <button class="all-programs" type="button">
+          <span class="all-arrow">▶</span>
+          <span>All Programs</span>
+          <span class="all-chevron">›</span>
+        </button>
+
+        <div class="start-search-wrap">
+          <input id="startSearch" class="start-search" type="text" placeholder="Start Search" autocomplete="off" />
+          <span class="search-glass">⌕</span>
+        </div>
+      </div>
+
+      <div class="start-right">
+        <div class="start-user-name">Productivity User</div>
+
+        <button class="vista-side-link" type="button" data-open="notepadWindow">Documents</button>
+        <button class="vista-side-link" type="button">Pictures</button>
+        <button class="vista-side-link" type="button">Music</button>
+
+        <div class="start-side-divider"></div>
+
+        <button class="vista-side-link" type="button">Computer</button>
+        <button class="vista-side-link" type="button">Control Panel</button>
+        <button class="vista-side-link" type="button">Help and Support</button>
+        <button class="vista-side-link" type="button">Run...</button>
+
+        <div class="shutdown-row">
+          <button class="shutdown-button" type="button">Shut down</button>
+          <button class="shutdown-arrow" type="button">›</button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="start-content">
-    <div class="start-list">
-      <button class="start-item" data-open="luckyWindow" type="button"><span class="mini-app lucky-mini">✦</span><span><b>Lucky Task Draw</b><small>choose today's mission</small></span></button>
-      <button class="start-item" data-open="notepadWindow" type="button"><span class="mini-app note-mini">A</span><span><b>Notepad</b><small>scratch pad & notes</small></span></button>
-      <button class="start-item" data-open="quotesWindow" type="button"><span class="mini-app quote-mini">“</span><span><b>Quote Generator</b><small>a tiny morale boost</small></span></button>
-      <button class="start-item" data-open="checklistWindow" type="button"><span class="mini-app check-mini">✓</span><span><b>Today's Checklist</b><small>keep the day moving</small></span></button>
-    </div>
-    <div class="start-side">
-      <button type="button" class="side-link" data-open="notepadWindow">Documents</button>
-      <button type="button" class="side-link" data-open="checklistWindow">Tasks</button>
-      <div class="side-divider"></div>
-      <div class="side-note">♡ have a productive day</div>
-    </div>
-  </div>
-  <div class="start-footer">
-    <span>Productivity Desktop</span>
-    <span class="start-power" title="decorative power button">◉</span>
   </div>
 </div>
+
 
 
 
@@ -2762,6 +3135,34 @@ const stickyKey = "productivityDesktop.vistaStickyNote";
 vistaStickyNote.value = localStorage.getItem(stickyKey) || "";
 vistaStickyNote.addEventListener("input", () => {
   localStorage.setItem(stickyKey, vistaStickyNote.value);
+});
+
+
+
+/* ==========================================================
+   V7 — START MENU SEARCH + SIDE LINKS
+   ========================================================== */
+const startSearch = document.getElementById("startSearch");
+const startPrograms = document.getElementById("startPrograms");
+
+if(startSearch && startPrograms){
+  startSearch.addEventListener("input", () => {
+    const q = startSearch.value.trim().toLowerCase();
+    startPrograms.querySelectorAll(".start-program").forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.style.display = !q || text.includes(q) ? "flex" : "none";
+    });
+    startPrograms.querySelectorAll(".start-program-divider").forEach(divider => {
+      divider.style.display = q ? "none" : "block";
+    });
+  });
+}
+
+document.querySelectorAll(".vista-side-link[data-open]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    openWindow(btn.dataset.open);
+    startMenu.classList.add("hidden");
+  });
 });
 
 
